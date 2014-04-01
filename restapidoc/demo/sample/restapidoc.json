@@ -1,0 +1,633 @@
+{
+   "basePath": "http://localhost:8080/RestApiDoc-example",
+   "apis": [
+      {
+         "methods": [
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "214be997-23df-42a6-b03e-fca410c47e42",
+                  "mapValueObject": "",
+                  "object": "author",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "cec72a2a-13c5-412c-bab3-b99c3f6f3d4c",
+                  "description": "Max number of author to retrieve",
+                  "name": "max",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "int"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "48ae03a7-3a84-4deb-ba02-415ebac6be51",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "7b1e865c-fde3-4c64-85b2-8402c7aa758f",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "0b10b79f-90a8-4285-bc27-6426d0775bed",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "9f449ebe-f287-453e-8f0a-2ca293c23fe1",
+                     "description": "Object not found",
+                     "code": "404"
+                  }
+               ],
+               "bodyobject": null,
+               "verb": "GET",
+               "jsondocId": "b633fd02-9835-42c1-a940-e423af499714",
+               "description": "List all authors",
+               "queryparameters": [],
+               "path": "/author/list.json",
+               "produces": ["application/json"],
+               "consumes": []
+            },
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "d774cdd5-af4d-4cdb-8e12-7fb3b23543a4",
+                  "mapValueObject": "",
+                  "object": "author",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "1cbaa2dc-9c9e-4e89-b219-c3eda1029107",
+                  "description": "The author id",
+                  "name": "id",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "long"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "0540f035-3818-4db9-8f90-c849b6e38761",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "c80f03e7-b1c5-4f48-a1ce-ee96a221a4aa",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "5a74b97d-427b-4252-8ec6-e7c5c4481576",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "8bab0df5-8303-44a2-a134-089449a9475a",
+                     "description": "Object not found",
+                     "code": "404"
+                  }
+               ],
+               "bodyobject": null,
+               "verb": "GET",
+               "jsondocId": "34220f39-5003-48df-812e-bbd00b3a1725",
+               "description": "Get an author",
+               "queryparameters": [],
+               "path": "/author/show/{id}.json",
+               "produces": ["application/json"],
+               "consumes": []
+            },
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "366a76fe-7d57-4a14-b868-62b62b11c6d9",
+                  "mapValueObject": "",
+                  "object": "[stats]",
+                  "multiple": "false"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "662f7262-c681-4da2-aa6a-fa69d2526562",
+                  "description": "Max number of author to retrieve",
+                  "name": "max",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "int"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "f5c3f9e7-7a0a-4a44-bccd-b78d0985109e",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "ddd59b79-28db-4220-870d-11cef0a1d3ef",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "b6c66dd1-2995-4165-9642-814adae70c6a",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "317f84b3-2797-43d1-8a82-4000b80f3a95",
+                     "description": "Object not found",
+                     "code": "404"
+                  }
+               ],
+               "bodyobject": null,
+               "verb": "GET",
+               "jsondocId": "1e02e80b-9ab9-4b72-8d12-f92eb142fa9f",
+               "description": "Get stats data for an author",
+               "queryparameters": [],
+               "path": "/author.json",
+               "produces": ["application/json"],
+               "consumes": []
+            }
+         ],
+         "jsondocId": "5852ad26-eac3-4d7a-80f3-06fd38e7636d",
+         "description": "Methods for managing authors",
+         "name": "author services"
+      },
+      {
+         "methods": [
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "580e12c9-8c77-4afa-a4e5-0fe1eb3596f6",
+                  "mapValueObject": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "99fd31e0-42bc-41a6-ba74-3ed5bd99923a",
+                  "description": "The author id",
+                  "name": "id",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "long"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "512ca99a-a147-441c-89a1-3bf8aa08d07e",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "9a9f29d8-b93b-45ca-bc29-e68f471d2d1e",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "582680da-3dc0-43a0-8c4f-28d1a05f8318",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "09f20ab7-c5bb-45fe-a07f-f8daab0e4abf",
+                     "description": "Object not found",
+                     "code": "404"
+                  }
+               ],
+               "bodyobject": null,
+               "verb": "GET",
+               "jsondocId": "6b1f62ae-d95f-489d-b7dc-c08d257e7e5d",
+               "description": "List books written by the author",
+               "queryparameters": [],
+               "path": "/api/author/{id}/book.json",
+               "produces": ["application/json"],
+               "consumes": []
+            },
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "f94d4555-e27c-491a-b784-13f3c623ea7e",
+                  "mapValueObject": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "f14ba198-3753-44c0-86a9-fa686156fb00",
+                  "description": "The book id",
+                  "name": "id",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "long"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "028f38e8-e3df-4f96-8717-58d486ca11fd",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "c319959b-51fd-44b5-a873-dbe552022f85",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "5c0ef0f5-f3ff-460e-a5c6-54d6726abcd1",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "ec73d2e3-8396-4636-9bbf-21d3c354b2df",
+                     "description": "Object not found",
+                     "code": "404"
+                  }
+               ],
+               "bodyobject": null,
+               "verb": "GET",
+               "jsondocId": "882c50a7-b72b-49f7-b891-ce437da60bd4",
+               "description": "Get a book",
+               "queryparameters": [],
+               "path": "/api/book/{id}.json",
+               "produces": ["application/json"],
+               "consumes": []
+            },
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "238f19ca-d959-4cad-ac13-b9436c5445ee",
+                  "mapValueObject": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "5ecd0dd3-f068-4b86-b588-aa9444a6f9f1",
+                  "description": "The book id",
+                  "name": "id",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "long"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "610c0b7e-22d6-4d4c-ad48-f5985e4ee63b",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "6ac5008e-49e2-466d-9c3c-2056c1ef21aa",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "69e93f64-f214-417e-8d1f-6390789c9559",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "43423930-c744-4ec1-a870-d3956575e73a",
+                     "description": "Object not found",
+                     "code": "404"
+                  }
+               ],
+               "bodyobject": null,
+               "verb": "DELETE",
+               "jsondocId": "c5938834-641f-4fd8-a0de-3aad6442320e",
+               "description": "Delete a book",
+               "queryparameters": [],
+               "path": "/api/book/{id}.json",
+               "produces": ["application/json"],
+               "consumes": []
+            },
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "88cf36b8-3726-444d-8381-a685363f4ea6",
+                  "mapValueObject": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [],
+               "apierrors": [
+                  {
+                     "jsondocId": "cdbb5641-19dd-4d04-a52e-4a840f515d33",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "3ec2edf3-da0d-4e61-82b0-42ba50b8ac93",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "b55b0c7c-9b6e-4d90-9200-04e976e3693e",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "bcb80ff5-9e37-4efb-9952-615b6de7614c",
+                     "description": "Object not found",
+                     "code": "404"
+                  },
+                  {
+                     "jsondocId": "20a5762a-f91a-4c0d-95e0-38d3c372d330",
+                     "description": "Object already exist",
+                     "code": "409"
+                  }
+               ],
+               "bodyobject": {
+                  "mapKeyObject": "",
+                  "jsondocId": "d9723146-a73b-4b3e-9059-6b4e5380d55a",
+                  "mapValueObject": "",
+                  "map": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "verb": "POST",
+               "jsondocId": "c2a2cf3d-a1d9-45fc-ac62-c9bcf98138f5",
+               "description": "Add a book on the store",
+               "queryparameters": [],
+               "path": "/api/book.json",
+               "produces": ["application/json"],
+               "consumes": ["application/json"]
+            },
+            {
+               "response": {
+                  "mapKeyObject": "",
+                  "jsondocId": "e9f98380-c1f8-43b0-9e8f-4c0f34549062",
+                  "mapValueObject": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "headers": [],
+               "pathparameters": [{
+                  "jsondocId": "b2c38131-67df-4fb3-bba6-cedaa60a89e4",
+                  "description": "The book id",
+                  "name": "id",
+                  "allowedvalues": [],
+                  "format": "",
+                  "required": "true",
+                  "type": "long"
+               }],
+               "apierrors": [
+                  {
+                     "jsondocId": "cfb3496c-7955-4c8b-a7d3-66d1bf87dbd1",
+                     "description": "Bad Request: missing parameters or bad message format",
+                     "code": "400"
+                  },
+                  {
+                     "jsondocId": "691848ae-fcd8-4077-84d6-31eba1d6bd77",
+                     "description": "Unauthorized: must be auth",
+                     "code": "401"
+                  },
+                  {
+                     "jsondocId": "f4c2ae22-0d91-4028-9e9f-2cebd63b0a18",
+                     "description": "Forbidden: role error",
+                     "code": "403"
+                  },
+                  {
+                     "jsondocId": "faded7f7-d37f-4adf-bcc4-4d538b3456fb",
+                     "description": "Object not found",
+                     "code": "404"
+                  },
+                  {
+                     "jsondocId": "1855f886-3374-4dc9-ad44-ecd6fe5b4797",
+                     "description": "Object already exist",
+                     "code": "409"
+                  }
+               ],
+               "bodyobject": {
+                  "mapKeyObject": "",
+                  "jsondocId": "bde1e408-ec15-4d16-b055-b9350ffc895f",
+                  "mapValueObject": "",
+                  "map": "",
+                  "object": "book",
+                  "multiple": "Unknow"
+               },
+               "verb": "PUT",
+               "jsondocId": "64d4eca9-eeb2-45e6-9a18-53a730530e22",
+               "description": "Edit a book",
+               "queryparameters": [],
+               "path": "/api/book/{id}.json",
+               "produces": ["application/json"],
+               "consumes": ["application/json"]
+            }
+         ],
+         "jsondocId": "c041c44a-77e4-4fbe-bed3-3eff0c11371b",
+         "description": "Methods for managing books",
+         "name": "book services"
+      }
+   ],
+   "objects": [
+      {
+         "jsondocId": "5dc6cfed-9d84-44c9-a3af-47dc81420d29",
+         "description": "An author stats",
+         "name": "[stats]",
+         "fields": [
+            {
+               "jsondocId": "45b2d38f-f941-487a-978a-4bd5d64685b8",
+               "description": "The author fullname",
+               "presentInResponse": false,
+               "mandatory": false,
+               "name": "fullname",
+               "allowedvalues": null,
+               "useForCreation": false,
+               "format": null,
+               "defaultValue": null,
+               "type": "String",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "3b2cb8a7-de5d-41b2-b5fd-980228a47753",
+               "description": null,
+               "presentInResponse": false,
+               "mandatory": null,
+               "name": "id",
+               "allowedvalues": null,
+               "useForCreation": null,
+               "format": null,
+               "defaultValue": null,
+               "type": "Long",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "46f56ad4-a9ae-4ae8-bcdf-618078547fe9",
+               "description": "The number of books created by this author",
+               "presentInResponse": false,
+               "mandatory": false,
+               "name": "numberOfBook",
+               "allowedvalues": null,
+               "useForCreation": false,
+               "format": null,
+               "defaultValue": null,
+               "type": "Integer",
+               "multiple": "false"
+            }
+         ]
+      },
+      {
+         "jsondocId": "1689c0a9-04a6-478a-ad51-345625564628",
+         "description": "An author write books",
+         "name": "author",
+         "fields": [
+            {
+               "jsondocId": "8cac9ee5-4ad8-46ac-bf3c-1ce782a181bc",
+               "description": "The firstname of the author",
+               "presentInResponse": true,
+               "mandatory": true,
+               "name": "firstname",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": null,
+               "type": "string",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "686d4d29-206d-4870-a963-f11a3e948ef7",
+               "description": "The lastname of the author",
+               "presentInResponse": true,
+               "mandatory": true,
+               "name": "lastname",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": null,
+               "type": "string",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "780b38e3-e22f-4ad8-9978-e891699c3af3",
+               "description": "The first and lastname",
+               "presentInResponse": true,
+               "mandatory": false,
+               "name": "fullname",
+               "allowedvalues": null,
+               "useForCreation": false,
+               "format": null,
+               "defaultValue": null,
+               "type": "String",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "a55855ff-8eb8-4707-b29e-4a1f01426989",
+               "description": "Books id written by this author",
+               "presentInResponse": true,
+               "mandatory": false,
+               "name": "books",
+               "allowedvalues": null,
+               "useForCreation": false,
+               "format": null,
+               "defaultValue": null,
+               "type": "List",
+               "multiple": "true"
+            },
+            {
+               "jsondocId": "be99db45-8a22-44ae-8874-a7d1faf59752",
+               "description": "The birthday date of the author",
+               "presentInResponse": false,
+               "mandatory": false,
+               "name": "birthday",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": "01/01/1970",
+               "type": "date",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "5dad06d4-7122-4387-b6ec-14730d9c044d",
+               "description": null,
+               "presentInResponse": false,
+               "mandatory": null,
+               "name": "id",
+               "allowedvalues": null,
+               "useForCreation": null,
+               "format": null,
+               "defaultValue": null,
+               "type": "Long",
+               "multiple": "false"
+            }
+         ]
+      },
+      {
+         "jsondocId": "68c59eee-06ae-4523-9195-8ef971a5265f",
+         "description": "A book available on the store",
+         "name": "book",
+         "fields": [
+            {
+               "jsondocId": "28cb2891-48e1-46a0-95e0-43c53c45bf90",
+               "description": "The author of the book",
+               "presentInResponse": true,
+               "mandatory": true,
+               "name": "author",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": null,
+               "type": "Author",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "a6daab7f-5518-477d-a052-911a57f87cad",
+               "description": "The book category",
+               "presentInResponse": true,
+               "mandatory": true,
+               "name": "category",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": null,
+               "type": "string",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "21ece10d-498e-4bf8-bf6c-13584c84b90c",
+               "description": null,
+               "presentInResponse": null,
+               "mandatory": null,
+               "name": "id",
+               "allowedvalues": null,
+               "useForCreation": null,
+               "format": null,
+               "defaultValue": null,
+               "type": "Long",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "da4bffa1-a249-47cc-b956-c1087ae1d5e5",
+               "description": "The title of the book",
+               "presentInResponse": true,
+               "mandatory": true,
+               "name": "title",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": null,
+               "type": "string",
+               "multiple": "false"
+            },
+            {
+               "jsondocId": "78a73b49-d559-47ea-a8ab-eadb6dcd0e2d",
+               "description": "Year published for this book",
+               "presentInResponse": true,
+               "mandatory": true,
+               "name": "year",
+               "allowedvalues": null,
+               "useForCreation": true,
+               "format": null,
+               "defaultValue": null,
+               "type": "integer",
+               "multiple": "false"
+            }
+         ]
+      }
+   ],
+   "version": "0.1"
+}
