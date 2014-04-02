@@ -654,7 +654,9 @@
                         });
                     });
                 });
-
+                var allLink = $("#apidiv").find("ul.nav").find("a");
+                var lastLink = allLink[allLink.length-1];
+                lastLink.click();
                 var objects = Handlebars.compile($("#objects").html());
                 var objectsHTML = objects(data);
                 $("#objectdiv").html(objectsHTML);
