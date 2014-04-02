@@ -53,7 +53,7 @@
             <li>
                 <a href="http://loic911.github.io/restapidoc/demo/sample/demo.html?doc_url=http://loic911.github.io/restapidoc/demo/sample/restapidoc.json"
                    target="_blank">Report Demo</a></li>
-            <li><a href="https://github.com/loic911/restapidoc-example" target="_blank">Grails project Sample</a></li>
+            <li><a href="https://github.com/loic911/restapidoc-example" target="_blank">Grails sample project</a></li>
             <li><a href="https://github.com/loic911/restapidoc" target="_blank">Source code</a></li>
             <li><a href="https://github.com/loic911/restapidoc/issues" target="_blank">Issues/Bugs</a></li>
         </ul>
@@ -91,7 +91,7 @@
 
     <p>
         This plugin allows you to document methods (description, HTTP path/verb, parameters, response type...) and
-        resources (description, all fields,...).
+        resources (description, all fields,...). It does a lot of stuff for you (computing path/verb for the method, retrieving field type,...)
     </p>
 
     <p>
@@ -174,11 +174,11 @@
 <h3>To document methods</h3>
 
 <ul>
-    <li>Define a <strong>@RestApi</strong> annotation on controller. Give it a name and a description,</li>
-    <li>For each method, define a <strong>@RestApiMethod(description)</strong> and a <strong>@RestApiParam(s)</strong>
+    <li>Define a <a href="#@RestApi">@RestApi</a> annotation on controller. Give it a name and a description,</li>
+    <li>For each method, define a <a href="#@RestApiMethod">@RestApiMethod</a> and a <a href="#@RestApiParam">@RestApiParam(s)</a>
         for all parameters.
     </li>
-    <li>You can customize many things: GOTO</li>
+    <li>You can customize a lot of things...see the <a href="#user_guide">User Guide</a> section or the <a href="https://github.com/loic911/restapidoc-example" target="_blank">sample app</a> for more complex example</li>
 </ul>
 
                 <pre>
@@ -196,7 +196,7 @@
     }
                     </code>
               </pre>
-The result will be like this. You can test your method in the playground area.
+<p>The result will be like this. You can test your method in the playground area.</p>
 <br/>
 <img src="gs_methods.png" class="img-thumbnail"/>
 
@@ -209,9 +209,9 @@ The result will be like this. You can test your method in the playground area.
 <h3>To document a resource/object</h3>
 
 <ul>
-    <li>Define a <strong>@RestApiObject</strong>(name and description) annotation on the domain,</li>
-    <li>For each field, define <strong>@RestApiObjectField</strong>(description)
-    <li>You can customize many things: GOTO</li>
+    <li>Define a <a href="#@RestApiObject">@RestApiObject</a> annotation on the domain,</li>
+    <li>For each field, define <a href="#@RestApiObject">@RestApiObjectField</a>,
+    <li>You can customize a lot of things...see the <a href="#user_guide">User Guide</a> section or the <a href="https://github.com/loic911/restapidoc-example" target="_blank">sample app</a> for more complex example</li>
 </ul>
 
                 <pre>
@@ -245,11 +245,18 @@ The result will be like this.
 
 
 
-<h2>User Guide</h2>
+<h2 id="user_guide">User Guide</h2>
     <h3>Document methods (controller)</h3>
+        <hr/>
+        <h4 id="@RestApi">@RestApi</h4>
 
-        <h4>@RestApi</h4>
-            Declare on a controller
+<pre>
+    <code data-language="java">
+        @RestApi(name = "book services", description = "Methods for managing books")
+        class BookController {
+        }
+    </code>
+</pre>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -273,9 +280,24 @@ The result will be like this.
             </table>
 
 
+<hr/>
+        <h4 id="@RestApiMethod">@RestApiMethod</h4>
+<pre>
+    <code data-language="java">
+        @RestApiMethod(description="Get an author")
+        def show() {
+        }
 
-        <h4>@RestApiMethod</h4>
-            Declare on a method. Unfortunately, you cannot declare a Java Annotation on a Grails action (def show = {...}). Anyway, Grails <a href="http://grails.org/doc/latest/guide/theWebLayer.html#controllers" target="_blank"> methods are better than action/closure</a>.
+        @RestApiMethod(description="List all authors", listing = true)
+        def list() {
+        }
+
+        @RestApiMethod(description="Get stats data for an author", path="/custom_path/stats.{json}", verb = RestApiVerb.PUT) //path and verb are stupid...just for the example...
+        def stats() {
+        }
+    </code>
+</pre>
+            <p>Declare on a method. Unfortunately, you cannot declare a Java Annotation on a Grails action (def show = {...}). Anyway, Grails <a href="http://grails.org/doc/latest/guide/theWebLayer.html#controllers" target="_blank"> methods are better than action/closure</a>.</p>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -297,7 +319,7 @@ The result will be like this.
                         <ol>
                             <li>First, the plugin looks into this value,</li>
                             <li>If path is null, the plugin looks inside your Url Mappings rules to retrieve the good path for the method,</li>
-                            <li>If no Url Mapping are found for this method, it will return the default Grails path (controller/action/id?) where action are compute with the config value “pathPerMethodPrefix” (show will be show/$id, add will be add/,...).</li>
+                            <li>If no Url Mapping are found for this method, it will return the default Grails path (controller/action/id?) where action are compute with the config value <a href="#configuration">pathPerMethodPrefix</a> (show() will be /show/$id, add() will be /add,...).</li>
                         </ol>
                     </td>
                 </tr>
@@ -305,18 +327,18 @@ The result will be like this.
                 <tr>
                     <td>RestApiVerb verb</td>
                     <td>The HTTP verb for this method</td>
-                    <td>Optional, similar to the “path” property.
+                    <td>Optional, similar to the "path" property.
                         <ol>
                             <li>First, the plugin looks into this value,</li>
                             <li>If null, looks inside Url Mappings,</li>
-                            <li>If null, retrieve the verb thanks to the method name (add/save => POST, edit/udpate => PUT,...). You can change these rules with config “verbPerMethodPrefix”.</li>
+                            <li>If no rule for this method, retrieve the verb thanks to the method name (add/save => POST, edit/udpate => PUT,...). You can change these rules with config <a href="#configuration">verbPerMethodPrefix</a>.</li>
                         </ol>
                 </tr>
 
                 <tr>
                     <td>String[] produces</td>
                     <td>The output format</td>
-                    <td>Optional, by default, the config value for “defaultResponseType” will be used (MediaType.APPLICATION_JSON_VALUE). You can change this with another MediaType (see config section).</td>
+                    <td>Optional, by default, the config value for <a href="#configuration">defaultResponseType</a> will be used (MediaType.APPLICATION_JSON_VALUE by default). You can change this with another MediaType.</td>
                 </tr>
 
 
@@ -330,17 +352,37 @@ The result will be like this.
                 <tr>
                     <td>boolean listing</td>
                     <td>The method will response a list (instead of an object)</td>
-                    <td>Optional, by default false. If config property “defaultParamsQueryMultiple” is set, you can add default params for all listing methods.
-                        Usefull if you have max/offset for methods returning a list.</td>
+                    <td>Optional, by default false. If config property <a href="#configuration">defaultParamsQueryMultiple</a> is set, you can add default params for all listing methods.
+                        Usefull if you have, for example, max/offset for methods returning a list.</td>
                 </tr>
 
                 </tbody>
             </table>
+<hr/>
+        <h4 id="@RestApiParams">@RestApiParams</h4>
+        <p>A simple array of @RestApiParam</p>
+<hr/>
+        <h4 id="@RestApiParam">@RestApiParam</h4>
+<pre>
+    <code data-language="java">
+        @RestApiMethod(description="Get an author")
+        @RestApiParams(params=[
+            @RestApiParam(name="id", type="long", paramType = RestApiParamType.PATH, description = "The author id")
+        ])
+        def show() {
+        }
 
-        <h4>@RestApiParams</h4>
-        A simple array of @RestApiParam
+        @RestApiMethod(description="List books written by the author", listing = true) //author/$id/book.json?max=$max
+        @RestApiParams(params=[
+            @RestApiParam(name="id", type="long", paramType = RestApiParamType.PATH, description = "The author id")
+            @RestApiParam(name="max", type="long", paramType = RestApiParamType.QUERY, description = "Limit for listing")
+        ])
+        def listByAuthor() {
+            //params.id or params.max
+        }
 
-        <h4>@RestApiParam</h4>
+    </code>
+</pre>
         Declare on a method
         <table class="table table-bordered">
             <thead>
@@ -378,8 +420,23 @@ The result will be like this.
 
 
 
+<hr/>
+        <h4 id="@RestApiResponseObject">@RestApiResponseObject</h4>
+<pre>
+    <code data-language="java">
+        //a method in BookController will return Book by default...
+        def show() {
+        }
 
-        <h4>@RestApiResponseObject</h4>
+        @RestApiResponseObject(objectIdentifier = "Long")
+        def getNumberOfBooks() {
+        }
+
+        @RestApiResponseObject(objectIdentifier = "[stats]") //see "Define Custom Domain" section
+        def stats() {
+        }
+    </code>
+</pre>
         Declare on a method
         <table class="table table-bordered">
             <thead>
@@ -398,18 +455,15 @@ The result will be like this.
 
                     If the method return a simple type (String, Integer,...), you can just set objectIdentifier with the good type.<br/><br/>
 
-                    If the method return a complex type (which is not a domain), you can define a custom domain (GOTO).<br/>
+                    If the method return a complex type (which is not a domain), you can define a <a href="#custom_domain">custom domain.</a><br/>
                 </td>
             </tr>
             </tbody>
         </table>
 
-
-
-
-
-        <h4>@RestApiBodyObject</h4>
-        Declare on a method
+<hr/>
+        <h4 id="@RestApiBodyObject">@RestApiBodyObject</h4>
+        <p>Declare on a method</p>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -422,21 +476,27 @@ The result will be like this.
             <tr>
                 <td>String name</td>
                 <td>The method input type</td>
-                <td>Same as objectIdentifier from RestApiResponseObject
+                <td>Same as objectIdentifier from <a href="#@RestApiResponseObject">@RestApiResponseObject</a>
                 </td>
             </tr>
             </tbody>
         </table>
 
-
-
-
-
-        <h4>@RestApiErrors</h4>
-        An array of @RestApiError
-
-        <h4>@RestApiError</h4>
-        Declare on a method
+<hr/>
+        <h4 id="@RestApiErrors">@RestApiErrors</h4>
+        <p>An array of @RestApiError</p>
+<hr/>
+        <h4 id="@RestApiError">@RestApiError</h4>
+        <p>Declare on a method</p>
+<pre>
+    <code data-language="java">
+        @RestApiErrors(apierrors=[
+            @RestApiError(code="404",description="The book was not found!")
+        ])
+        def show() {
+        }
+    </code>
+</pre>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -458,16 +518,20 @@ The result will be like this.
             </tr>
             </tbody>
         </table>
-        See config section for "defaultErrorAll", "defaultErrorGet",... property. You will be able to add default errors for methods (a 404 for all GET methods, a 409 for all POST methods,...).
-
-
-
+        See <a href="#configuration">config section</a> for defaultErrorAll, defaultErrorGet,... properties. You will be able to add default errors for methods (a 404 for all GET methods, a 409 for all POST methods,...).
 
 
     <h3>Document objects (domain)</h3>
+<hr/>
+        <h4 id="@RestApiObject">@RestApiObject</h4>
 
-        <h4>@RestApiObject</h4>
-        Declare on a domain
+<pre>
+    <code data-language="java">
+        @RestApiObject(name = "author", description = "An author write books")
+        class Author {
+    </code>
+</pre>
+        <p>Declare on a domain</p>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -491,9 +555,53 @@ The result will be like this.
         </table>
 
 
+<hr/>
+        <h4 id="@RestApiObjectField">@RestApiObjectField</h4>
+<pre>
+    <code data-language="java">
+        @RestApiObjectField(description = "The firstname of the author")
+        String firstname
 
-        <h4>@RestApiObjectField</h4>
-        Declare on a domain property
+        @RestApiObjectField(description = "The lastname of the author")
+        String lastname
+    </code>
+</pre>
+<pre>
+    <code data-language="java">
+        //Shhh keep it secret, it will not be print in response (!presentInResponse)
+        //Let say that if not set (!mandatory), we set birthday to 01/01/1970 (defaultValue)...
+        @RestApiObjectField(
+            description = "The birthday date of the author",
+            presentInResponse = false,
+            mandatory = false,
+            defaultValue = "01/01/1970"
+        )
+        Date birthday
+    </code>
+</pre>
+<pre>
+    <code data-language="java">
+
+        @RestApiObjectField(
+            apiFieldName= "books",
+            description = "Books id written by this author",
+            allowedType =  "List",
+            useForCreation = false
+        )
+        static hasMany = [book:Book]
+
+        @RestApiObjectFields(params=[
+            //This field is in response but not in domain (concat firstname and lastname). We can doc it on transients...
+            @RestApiObjectField(
+                apiFieldName= "fullname",
+                description = "The first and lastname",
+                allowedType =  "String",
+                useForCreation = false)
+        ])
+        static transients = []
+    </code>
+</pre>
+        <p>Declare on a domain property</p>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -519,13 +627,13 @@ The result will be like this.
                 <td>String apiFieldName</td>
                 <td>The field name in response</td>
                 <td>Optional, by default the name will be automatically retrieve from the class field name.<br/><br/>Use case:
-                    If the field has another name in the response (theAuthor instead of author), you have to set the value with "theAuthor".</td>
+                    If the field has another name in the response (response.theAuthor instead of response.author), you have to set the value with "theAuthor".</td>
             </tr>
             <tr>
                 <td>boolean useForCreation</td>
                 <td>Field is used for creation</td>
                 <td>Optional, by default true (all fields are used for creation).<br/><br/>Use case:
-                    An auto-id or a createdDate field should be set with useForCreation=false if there are not used during the domain build.</td>
+                    An auto-id or a createdDate field should be set with useForCreation=false if there are not used when creating the domain.</td>
             </tr>
             <tr>
                 <td>boolean mandatory</td>
@@ -537,9 +645,9 @@ The result will be like this.
             <tr>
                 <td>boolean defaultValue</td>
                 <td>Field default value. Only usefull if mandatory = false</td>
-                <td>Optional, by default an optional field (not mandatory) has the default value according its java type (number = 0, object = null, list = [],...)<br/></td><br>
+                <td>Optional, by default an optional field (not mandatory) has the default value according its java type (number = 0, object = null, list = [],...)<br/><br>
                 Use case:
-                If by default, the category of a book is “None”, set defaultValue = “None”.</td>
+                If by default, the category of a book is "None", set defaultValue = "None".</td>
             </tr>
             <tr>
                 <td>boolean presentInResponse</td>
@@ -555,18 +663,18 @@ The result will be like this.
             </tbody>
         </table>
 
-
+<hr/>
         <h4>Define custom field</h4>
 
-        Sometimes, your service may response transient fields or fields from other domain. You can add annotations on hasMany or transients Grails property.
-        The first example, an author may have a "fullname" and its JSON/XML response. Its a transient field.
+        <p>Sometimes, your service may response transient fields or fields from other domain. You can add annotations on other Grails properties like hasMany, transients,...
+        The first example, an author may have a "fullname" (firstname + " " + lastname) in its JSON/XML response. Its a transient field (we only store firstname and lastname).</p>
 
 <pre>
     <code data-language="java">
         @RestApiObjectFields(params=[
             @RestApiObjectField(
                 apiFieldName= "fullname",
-                description = "The first and lastname",
+                description = "The first and last name",
                 allowedType =  "String",
                 useForCreation = false)
         ])
@@ -574,7 +682,7 @@ The result will be like this.
     </code>
 </pre>
 
-The second example, an author may have a list of book. Let says that we only response the list of book's id.
+<p>The second example, an author may have a list of book. Let says that we only response the list of book's id (e.g. author.book=[1,5,6]).</p>
 <pre>
     <code data-language="java">
         @RestApiObjectField(
@@ -586,10 +694,10 @@ The second example, an author may have a list of book. Let says that we only res
     </code>
 </pre>
 
+<hr/>
+        <h4 id="custom_domain">Define custom domain</h4>
 
-        <h4>Define custom domain</h4>
-
-        Sometimes, a service may response a special type (not a domain).
+        <p>Sometimes, a service may response a special type (not a domain).</p>
 
 <pre>
     <code data-language="java">
@@ -608,13 +716,18 @@ The second example, an author may have a list of book. Let says that we only res
     </code>
 </pre>
 
-The response is an object with fullname and numberOfBook properties.
+<p>The response is an object with fullname and numberOfBook properties.
 
-You can create a class. You can call it "CustomResponseDoc" (or something else...) and put it wherever you want in your src/ directory.
-To define a new resource type, just add a new field and fill the RestApiObjectField  and RestApiObjectField(s).
+You can create a class. You can call it "CustomResponseDoc" (or something else...) and put it wherever you want in your src/ directory.<br/>
+    <br/>
+<a href="#configuration">Change the config property customClassName</a> with the full class path (customClassName="my.package.CustomResponseDoc").<br/>
+    <br/>
+To define a new resource type, add a new field and fill the RestApiObjectField and RestApiObjectField(s).</p>
 
 <pre>
     <code data-language="java">
+        package my.package
+
         class CustomResponseDoc {
             @RestApiObjectField(description = "An author stats")
             @RestApiObjectFields(params=[
@@ -636,14 +749,14 @@ To define a new resource type, just add a new field and fill the RestApiObjectFi
     </code>
 </pre>
 
-Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</strong> on the method stats() from your controller.
+<p>Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</strong> on the method stats() from your controller.</p>
 
 
 
 <br/>
 
 
-<h2>Configuration</h2>
+<h2 id="configuration">Configuration</h2>
 
 <p class="well note">
     There are some default values defined for each configuration fields. You can simply override them.
@@ -658,7 +771,7 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
         <th>Default</th>
     </tr>
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.docVersion">
+        <td id="docVersion" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.docVersion">
             String docVersion
         </td>
         <td>The documentation version</td>
@@ -666,7 +779,7 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.basePath">
+        <td id="basePath" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.basePath">
             String basePath
         </td>
         <td>The path for your app. If you don't override this, you can't play with doc playground.</td>
@@ -674,7 +787,7 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.outputFile">
+        <td id="outputFile" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.outputFile">
             String outputFile
         </td>
         <td>The JSON output file</td>
@@ -682,15 +795,15 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.customClassName">
+        <td id="customClassName" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.customClassName">
             String customClassName
         </td>
-        <td>The class path for all customs domains (GOTO Define custom domain). You must put the full package path and class name.</td>
+        <td>The class path for all customs domains (<a href="#custom_domain">Define custom domain</a>). You must put the full package path and class name.</td>
         <td>null</td>
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultFormat">
+        <td id="defaultFormat" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultFormat">
             String defaultFormat
         </td>
         <td>The default format in URL<br/>
@@ -700,7 +813,7 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultResponseType">
+        <td id="defaultResponseType" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultResponseType">
             String defaultResponseType
         </td>
         <td>The default response type</td>
@@ -708,16 +821,16 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.controllerPrefix">
+        <td id="controllerPrefix" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.controllerPrefix">
             String controllerPrefix
         </td>
         <td>Usefull if you have a prefix in your controller.
-            With MyBookController, the  domain will be MyBook. If controllerPrefix is "My", It will be "Book"</td>
+            With MyBookController, the domain will be MyBook. If controllerPrefix is "My", It will be "Book"</td>
         <td>""</td>
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.controllerSuffix">
+        <td id="controllerSuffix" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.controllerSuffix">
             String controllerSuffix
         </td>
         <td>See controllerPrefix</td>
@@ -725,33 +838,33 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultObjectFields">
+        <td id="defaultObjectFields" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultObjectFields">
             List defaultObjectFields
         </td>
         <td>You can add some default doc fields for all your domains.<br/>
             Example:<br/>
-            grails.plugins.restapidoc.defaultObjectFields = [[name:"id", type:"Long"]]
+            grails.plugins.restapidoc.defaultObjectFields = [[name:"id", type:"Long", useFroCreation="false"]]
         </td>
         <td>[]</td>
     </tr>
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorAll">
+        <td id="defaultErrorAll" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorAll">
             List defaultErrorAll
         </td>
-        <td>Default error to define for all methods</td>
-        <td>[<br/>
-            "400": "Bad Request: missing parameters or bad message format",<br/>
+        <td>Default errors to define for all methods. For example: <br/>
+            ["400": "Bad Request: missing parameters or bad message format",<br/>
             "401": "Unauthorized: must be auth",<br/>
             "403": "Forbidden: role error",<br/>
-            "404": "Object not found"<br/>
-            ]</td>
+            "404": "Object not found"]<br/>
+        </td>
+        <td>[]</td>
     </tr>
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorGet">
+        <td id="defaultErrorGet" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorGet">
             List defaultErrorGet
         </td>
         <td>Same as defaultErrorAll, but only for GET methods</td>
@@ -760,29 +873,30 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorPost">
+        <td id="defaultErrorPost" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorPost">
             List defaultErrorPost
         </td>
-        <td>Same as defaultErrorAll, but only for POST methods</td>
-        <td>[<br/>
+        <td>Same as defaultErrorAll, but only for POST methods. For example: [<br/>
             "409": "Object already exist"<br/>
+            ]
+        </td>
+        <td>[
             ]</td>
     </tr>
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorPut">
+        <td id="defaultErrorPut" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorPut">
             List defaultErrorPut
         </td>
         <td>Same as defaultErrorAll, but only for PUT methods</td>
-        <td>[<br/>
-            "409": "Object already exist"<br/>
+        <td>[
             ]</td>
     </tr>
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorDelete">
+        <td id="defaultErrorDelete" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorDelete">
             List defaultErrorDelete
         </td>
         <td>Same as defaultErrorAll, but only for DELETE methods</td>
@@ -791,7 +905,45 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.grailsDomainDefaultType">
+        <td id="verbPerMethodPrefix" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.verbPerMethodPrefix">
+            Map verbPerMethodPrefix
+        </td>
+        <td>Map to link a method prefix name with a verb. Only used if no verb is defined in @RestApiMethod and no URL Mappings rules are found for the method.<br/>
+            You can override or add new rules (e.g. "modify": PUT)</td>
+        <td>[
+            "show" : "GET",
+            "list" : "GET",
+            "save" : "POST",
+            "add" : "POST",
+            "update" : "PUT",
+            "edit" : "PUT",
+            "delete" : "DELETE",
+            "remove" : "DELETE"
+            ]</td>
+    </tr>
+
+
+    <tr>
+        <td id="pathPerMethodPrefix" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultErrorDelete">
+            Map pathPerMethodPrefix
+        </td>
+        <td>Same as verbPerMethodPrefix but for the path. Only used if no path is defined in @RestApiMethod and no URL Mappings rules are found for the method.</td>
+        <td>[
+            "show" : "show/{id}",
+            "list" : "list",
+            "add" : "add",
+            "save" : "save",
+            "update" : "udpate/{id}",
+            "edit" : "edit/{id}",
+            "delete" : "delete/{id}",
+            "remove" : "delete/{id}",
+            ]</td>
+    </tr>
+
+
+
+    <tr>
+        <td id="grailsDomainDefaultType" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.grailsDomainDefaultType">
             String grailsDomainDefaultType
         </td>
         <td>The default type for your Grails Domain.<br/>
@@ -800,7 +952,7 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultParamsQueryAll">
+        <td id="defaultParamsQueryAll" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultParamsQueryAll">
             List defaultParamsQueryAll
         </td>
         <td>Default params for all your queries</td>
@@ -808,19 +960,19 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
     </tr>
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultParamsQuerySingle">
+        <td id="defaultParamsQuerySingle" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultParamsQuerySingle">
             List defaultParamsQuerySingle
         </td>
-        <td>Default params for all your methods where lsiting = false</td>
+        <td>Default params for all your methods where listing = false</td>
         <td>[]</td>
     </tr>
 
 
     <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultParamsQueryMultiple">
+        <td id="defaultParamsQueryMultiple" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultParamsQueryMultiple">
             List defaultParamsQueryMultiple
         </td>
-        <td>Default params for all your methods where lsiting = true<br/>
+        <td>Default params for all your methods where listing = true<br/>
             <br/>
             For example:<br/>
             defaultParamsQueryMultiple = [<br/>
@@ -830,14 +982,6 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
         <td>[]</td>
     </tr>
 
-    <tr>
-        <td title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.">
-
-        </td>
-        <td></td>
-        <td></td>
-    </tr>
-
     </tbody>
 </table>
 <br>
@@ -845,7 +989,7 @@ Now you can add <strong>@RestApiResponseObject(objectIdentifier = "[stats]")</st
 <h2>Extending</h2>
 
 <p class="well">
-    If you find that you need a feature that <em>Enter Project Name Here</em> does not currently support, either let me
+    If you find that you need a feature that <em>RestApiDoc</em> does not currently support, either let me
     know via the <a href="https://github.com/loic911/restapidoc/issues" target="_blank">Github issue tracker</a>, or <a href="https://github.com/loic911/restapidoc" target="_blank">fork the
     project</a> and and easily extend <em>RestApidDoc plugin</em>!
 </p>
