@@ -140,33 +140,28 @@
 <br>
 
 <p class="well">
-    For the time being, you have to build the doc JSON file by calling the build method from the RestApiDocController
-    from the plugin.<br/>
-    <br/>
-    Launch your app, open your browser:
-    <strong>http://.../restApiDoc/build</strong><br/>
+
+    Run the command: <br/><br/>
+    <strong>grails rest-api-doc</strong><br/>
     <br/>
     A restapidoc.json file will be create on the root of your Grails project.<br/>
-    Then you can run the report:<br/><br/>
 
+    <strong>http://.../restApiDoc/api</strong> service output the JSON file. <br/>
+    <br/>
+    You can call this to view the Web report:<br/>
+    <br/>
     <strong>http://.../restApiDoc/?doc_url=http://.../restApiDoc/api#</strong><br/>
+
     <br/>
 
     Example for the <a href="https://github.com/loic911/restapidoc-example" target="_blank">sample app</a>:<br/>
-    http://localhost:8080/RestApiDoc-example/restApiDoc/build<br/>
     http://localhost:8080/RestApiDoc-example/restApiDoc/?doc_url=http://localhost:8080/RestApiDoc-example/restApiDoc/api#<br/>
     <br/>
 
     <strong>In production</strong>, you have to put the <strong>restapidoc.json</strong> file on the root of your app
     (new File("restapidoc.json") from your app must work).
-
-
 </p>
 
-<p class="well text-danger">
-    This first step (build the JSON doc file) only works in dev mode! The report works in all mode.
-    Anyway, A Grails script should replace this first step...
-</p>
 <br>
 
 <h2>Getting started</h2>
