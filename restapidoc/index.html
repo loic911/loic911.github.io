@@ -131,9 +131,38 @@
 
 <p class="well text-danger">
     This plugin is still waiting for validation....wait :-)<br/><br/>
-
-    Theoretically, the plugin is now only compatible with Grails 2.3. It must be test with previous version.
 </p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Grails version</th>
+        <th>Status</th>
+        <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="success">
+        <td>2.4M1</td>
+        <td><span class="glyphicon glyphicon-ok"></span></td>
+        <td></td>
+    </tr>
+    <tr class="success">
+        <td>2.3</td>
+        <td><span class="glyphicon glyphicon-ok"></span></td>
+        <td></td>
+    </tr>
+    <tr class="danger">
+        <td>2.2 or lesser</td>
+        <td><span class="glyphicon glyphicon-remove"></span></td>
+        <td>UrlMapping rules extractor appears in 2.3. Two possibilities:
+            <ul>
+                <li>Rewrite a AnsiConsoleUrlMappingsRenderer.groovy (from Grails-Core) compatible with Grails 2.2 or lesser</li>
+                <li>Turn off the "auto-path" generation</li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
 <br>
 
 <h2>How to run</h2>
