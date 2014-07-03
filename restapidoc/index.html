@@ -172,6 +172,8 @@
 <br>
 
     <ul>
+        <li><strong>0.2</strong>: Bug fixes, multiple extensions support</li>
+        <li><strong>0.1.4</strong>: Support Grails 2.4 (thanks to github.com/uberall)</li>
 		<li><strong>0.1.3</strong>: Support Grails 2.4 (thanks to github.com/uberall)</li>
         <li><strong>0.1.2</strong>: Fix duplication in action</li>
         <li><strong>0.1.1</strong>: Fix issue with @RestApiError(s)</li>
@@ -372,7 +374,23 @@ The result will be like this.
                             <li>If no rule for this method, retrieve the verb thanks to the method name (add/save => POST, edit/udpate => PUT,...). You can change these rules with config <a href="#configuration">verbPerMethodPrefix</a>.</li>
                         </ol>
                 </tr>
-
+                <tr>
+                    <td>String[] extensions</td>
+                    <td>Extension for the path service</td>
+                    <td>
+                        Optional, by default the <a href="#configuration">defaultFormat</a> value ("json").<br/><br/>
+                        A service may have multiple extensions.
+                        The path (from UrlMappings, path attribute,...) must contain the string "{format}" (will be replaced by each extensions).
+                        <br/>
+                        For example: if path = "/user/{id}/picture.{format}" and extensions = ["png","jpg"], you will get two entries in the documentation.
+                        <ul>
+                            <li>/user/{id}/picture.png</li>
+                            <li>/user/{id}/picture.jpg</li>
+                        </ul>
+                        <br/>
+                        The config value <a href="#configuration">defaultFormatString</a> ("{format}" by default) may be changed by something else.
+                    </td>
+                </tr>
                 <tr>
                     <td>String[] produces</td>
                     <td>The output format</td>
@@ -876,6 +894,18 @@ To define a new resource type, add a new field and fill the RestApiObjectField a
     </tr>
 
     <tr>
+        <td id="defaultFormatString" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultFormatString">
+            String defaultFormatString
+        </td>
+        <td>
+            The string representing the format in each service path.
+            This will be replaced by "defaultFormat" value (from config) or extensions value (from annotation doc)
+        </td>
+        <td>"{format}"</td>
+    </tr>
+
+
+    <tr>
         <td id="defaultObjectFields" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.defaultObjectFields">
             List defaultObjectFields
         </td>
@@ -1019,6 +1049,8 @@ To define a new resource type, add a new field and fill the RestApiObjectField a
             ]</td>
         <td>[]</td>
     </tr>
+
+
 
     </tbody>
 </table>
