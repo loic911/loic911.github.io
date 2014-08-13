@@ -131,7 +131,7 @@
 
 <p class="well">
     Just add the following line in your BuildConfig (plugins):<br/><br/>
-    compile ":rest-api-doc:0.1.2"<br/><br/>
+    compile ":rest-api-doc:0.3"<br/><br/>
 
     The resources plugin must be in your BuildConfig! (runtime ":resources:1.2.1")
 </p>
@@ -172,8 +172,8 @@
 <br>
 
     <ul>
+        <li><strong>0.3</strong>: Retrieve method parameters type (issue #15), Support no-domain classes (issue #14), query parameters work in playground (issue #13), Support URL without extension.</li>
         <li><strong>0.2</strong>: Bug fixes, multiple extensions support</li>
-        <li><strong>0.1.4</strong>: Support Grails 2.4 (thanks to github.com/uberall)</li>
 		<li><strong>0.1.3</strong>: Support Grails 2.4 (thanks to github.com/uberall)</li>
         <li><strong>0.1.2</strong>: Fix duplication in action</li>
         <li><strong>0.1.1</strong>: Fix issue with @RestApiError(s)</li>
@@ -473,8 +473,21 @@ The result will be like this.
             </tbody>
         </table>
 
-
-
+<p>
+    If you use Controller method with parameters, the type option may be ignored. The plugin will automatically retrieve the type.
+    The @RestApiParam must be ordered like the method parameters.
+</p>
+<pre>
+    <code data-language="java">
+        @RestApiMethod(description="...)
+        @RestApiParams(params=[
+            @RestApiParam(name="lastname",  paramType = RestApiParamType.PATH, description = "The lastname criteria"), // the plugin will get the type from the method parameter
+        ])
+        def search(String lastname) {
+            //we don't use params.lastname,...
+        }
+    </code>
+</pre>
 
 <hr/>
         <h4 id="@RestApiResponseObject">@RestApiResponseObject</h4>
