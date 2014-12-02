@@ -131,7 +131,7 @@
 
 <p class="well">
     Just add the following line in your BuildConfig (plugins):<br/><br/>
-    compile ":rest-api-doc:0.3"<br/><br/>
+    compile ":rest-api-doc:0.4"<br/><br/>
 
     The resources plugin must be in your BuildConfig! (runtime ":resources:1.2.1")
 </p>
@@ -172,6 +172,8 @@
 <br>
 
     <ul>
+		<li><strong>0.4</strong>: OutputFile config is now split in outputFileGeneration and outputFileReading. <a href="#configuration">outputFileGeneration</a> is the location of the json file after the generation. <a href="#configuration">outputFileReading</a> is the location of the json file in the server.</li>
+        <li><strong>0.3.1</strong>: Fix</li>
         <li><strong>0.3</strong>: Retrieve method parameters type (issue #15), Support no-domain classes (issue #14), query parameters work in playground (issue #13), Support URL without extension.</li>
         <li><strong>0.2</strong>: Bug fixes, multiple extensions support</li>
 		<li><strong>0.1.3</strong>: Support Grails 2.4 (thanks to github.com/uberall)</li>
@@ -189,7 +191,7 @@
     Run the command: <br/><br/>
     <strong>grails rest-api-doc</strong><br/>
     <br/>
-    A restapidoc.json file will be create on the root of your Grails project.<br/>
+    A restapidoc.json file will be create on the root of your Grails project (in <a href="#configuration">outputFileGeneration</a>).<br/>
 
     <strong>http://.../restApiDoc/api</strong> service output the JSON file. <br/>
     <br/>
@@ -203,8 +205,8 @@
     http://localhost:8080/RestApiDoc-example/restApiDoc/?doc_url=http://localhost:8080/RestApiDoc-example/restApiDoc/api#<br/>
     <br/>
 
-    <strong>In production</strong>, you have to put the <strong>restapidoc.json</strong> file on the root of your app
-    (new File("restapidoc.json") from your app must work).
+    <strong>In production</strong>, you have to put the json file (<strong>restapidoc.json</strong> by default) on the root of your app
+    (new File("restapidoc.json") from your app must work). You can change the location on the server with <a href="#configuration">outputFileReading</a>.
 </p>
 
 <br>
@@ -856,13 +858,19 @@ To define a new resource type, add a new field and fill the RestApiObjectField a
     </tr>
 
     <tr>
-        <td id="outputFile" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.outputFile">
-            String outputFile
+        <td id="outputFileGeneration" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.outputFileGeneration">
+            String outputFileGeneration
         </td>
-        <td>The JSON output file</td>
+        <td>The file where to store the JSON after generation</td>
         <td>"restapidoc.json"</td>
     </tr>
-
+    <tr>
+        <td id="outputFileReading" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.outputFileReading">
+            String outputFileReading
+        </td>
+        <td>The JSON file to read when looking for the report. Usefull if you upload the file in a specific location on the server.</td>
+        <td>"restapidoc.json"</td>
+    </tr>
     <tr>
         <td id="customClassName" title="Option Name" class="optionName" data-content="grails.plugins.restapidoc.customClassName">
             String customClassName
