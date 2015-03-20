@@ -133,6 +133,8 @@
 
                 <h1>Presentation</h1>
 
+                <h2>Introduction</h2>
+
                 <strong>CBIRest</strong> is a Content-based image retrieval (CBIR) web application. Its a REST API for the <a href="https://github.com/loic911/CBIRetrieval" target="_blank">Java CBIRetrieval lib</a>.
 
 
@@ -145,56 +147,75 @@
                 <img src="images/presentation.jpg" class="img img-responsive"/>
 
                 <p>
-                You will be able to perform HTTP request to search for similar images and to add/remove images in the CBIR index.
+
+                CBIRest API is:
+                    <ul>
+                        <li><strong>A REST API for CBIR</strong>: You will be able to perform HTTP request to search for similar images and to add/remove images in the CBIR index.</li>
+                        <li><strong>web</strong>: packaged with a full web client.</li>
+                        <li><strong>incremental</strong>: add new images all over the time.</li>
+                        <li><strong>scalable</strong>: run as many server as you want. Client may search on all servers (not yet production ready). </li>
+                        <li><strong>easy to customise</strong>: build using Java/Spring (server) and AngularJS (client).</li>
+                        <li><strong>free</strong>: Free and Opensource (Apache 2.0). </li>
+                    </ul>
+
+
+                We use these technologies:
+                <a href="https://github.com/loic911/CBIRetrieval" target="_blank">CBIRetrieval Java lib</a>,
+                <a href="http://projects.spring.io/spring-boot/" target="_blank">Spring boot</a>,
+                <a href="https://angularjs.org/" target="_blank">AngularJS</a>,
+                <a href="https://http://redis.io/" target="_blank">Redis (NoSQL key value store)</a> and
+                <a href="https://jhipster.github.io/" target="_blank">Jhipster</a>
+
                 </p>
 
-                How it works:
-                1. Add images on the server. Each image can be index inside a specific “storage” (virual space).
-                //schame
-                2. Search for a specific image on the server. You can choose which storage (default: all) you can request.
-                //schema
+
+                <h3>UI interface</h3>
+
+                <p>CBIRest is not only an REST API, its a webapp too. The application is packaged with a web client.
+                This is usefull for management task (add, delete images,...) and to perform some tests.</p>
+
+                <p>The web application provides some functionalities:
+                    <ul>
+                        <li>Search for similar images</li>
+                        <li>Add/Delete images from index</li>
+                        <li>Manage storages (virtual space)</li>
+                        <li>Change user password</li>
+                        <li>Server Metrics/Health</li>
+                        <li>...</li>
+                    </ul>
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6"><img src="images/UI_welcome_page.png" class="img-responsive img-thumbnail" alt="Full demo doc">
+                    </div>
+                    <div class="col-md-6"><img src="images/UI_search_image_crop.png" class="img-responsive img-thumbnail" alt="Full demo doc">
+                    </div>
+                </div>
 
 
-                //presentation GUI
+                <h2>How it works</h2>
 
+                <h3>Index</h3>
+                <p>
+                    You first need to index images on the server. CBIRest is incremental, this means that you can add new images to the index all over the time.
+                    Index image can be done with a POST /api/images. You need to provide the image binary data as a multipart content.
+                    You may specifiy the image id (by default: a random number), the storage (by default: a random storage) and some properties (by default: an empty map).
+                </p>
 
-
-
-
-
-
-
-
-
-                License
-                The CBIRetrieval library is:
-                Incremental: You can add new images all over the time.
-                Scalable: Run as many server as you want. Client may search on all server.
-                ...
-
-
-
-
-
-                Opensource/Free: Apache 2.0
-
-                Technologies:
-                Jhipster
-                -CBIRetrieval
-                -Spring boot
-                -AngularJS
-                -Redis (NoSQL key value store)
-
-
-
-
-
-
+                <h3>Search</h3>
+                <p>
+                    Simply provides an image and the storages (by default the search will be done on all available storages). The service can be reach thanks to a POST in /api/search.
+                    The CBIRest server provides a list of similar pictures (sort by similarities). For each image, the server return the id, storage and properties.
+                </p>
 
 
 
-
-
+                <div class="row">
+                    <div class="col-md-6"><img src="images/API_INDEX.png" class="img-responsive img-thumbnail" alt="Full demo doc">
+                    </div>
+                    <div class="col-md-6"><img src="images/API_SEARCH.png" class="img-responsive img-thumbnail" alt="Full demo doc">
+                    </div>
+                </div>
 
 
             </div>
