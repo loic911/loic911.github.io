@@ -124,7 +124,8 @@
         </nav>
 
 
-        <div class="tab-content" id="page-wrapper">
+        <div class="tab-content container-fuild" style="padding:30px;" id="page-wrapper">
+
 
             <!--
                       _____                          _        _   _
@@ -255,34 +256,64 @@
                     <li>Redis (not mandatory)</li>
                 </ul>
 
+                <p class="bg-warning">Redis is mandatory if you want persistance.
+                    If you use Memory mode, you will lost your data if you reboot the app.</p>
+
                 <h3>Download</h3>
 
                 <a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank"><strong>Download dist here</strong></a>
 
-                <p>The retrieval-*-auto.war file is a war with an embedded TOMCAT server (for quick install).
-                    The other war can be install inside a web server/servlet container (only test with tomcat).
+                <p>The retrieval-*.war file is a war with an embedded TOMCAT server (for quick install).
+                    The other war (.war.original) can be install inside a web server/servlet container (only test with tomcat).
                 </p>
 
                 <h3>Quick install (Test)</h3>
 
                 <ol>
-                    <li>Download the last retrieval-*-auto.war release</li>
+                    <li>Create /data/retrieval directory</li>
+                    <li><a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank">Download the last retrieval-*-auto.war release.</a></li>
                     <li>Open a terminal and Run:
                           <pre>
                                 <code data-language="shell">
     java -jar $WAR_LOCATION.war --spring.profiles.active=prod --retrieval.store.name=MEMORY
                                 </code>
                           </pre>
-                        Just replace $WAR_LOCATION with your war full path (e.g. retrieval-0.1-SNAPSHOT.war)
+                        Just replace $WAR_LOCATION with your war full path (e.g. retrieval-0.1-SNAPSHOT.war).
                     </li>
-                    <li>open your browser and go to http://localhost:9999/</li>
+                    <li>open your browser and go to <i>http://localhost:9999/</i></li>
                 </ol>
 
 
 
 
                 <h3>Full install (Prod)</h3>
-                Shell
+
+                <ol>
+                    <li>Create /data/retrieval directory</li>
+                    <li><a href="http://redis.io/download">Download Redis</a></li>
+                    <li>Install Redis if not yet done.
+                        By default, Redis needs to be run on localhost:6379 (default value).
+                    </li>
+                    <li>Launch Redis if not yet done:
+                          <pre>
+                                <code data-language="shell">
+    ./redis-server
+                                </code>
+                          </pre>
+                    </li>
+                    <li>Install Tomcat if not yet done</li>
+                    <li><a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank">Download the last retrieval*.war release.</a></li>
+                    <li>Copy the war file in the tomcat webapps directory</li>
+                    <li>open your browser and go to <i>http://localhost:9999/</i></li>
+                </ol>
+
+
+                <h3>Build from sources</h3>
+
+                <ol>
+                    <li>Source can be found on github: <a href="https://github.com/loic911/CBIRestAPI">github.com/loic911/CBIRestAPI</a> </li>
+                </ol>
+
 
 
             </div>
