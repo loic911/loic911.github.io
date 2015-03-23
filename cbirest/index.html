@@ -81,18 +81,15 @@
                     <li>
                         <a href="#installation" aria-controls="installation" style="color:#999999;"><i class="fa fa-fw fa-laptop"></i> Installation/run</a>
                     </li>
-                    <li role="configuration" >
+                    <li >
                         <a href="#configuration" aria-controls="configuration" role="tab" data-toggle="tab"><i class="fa fa-fw fa-wrench"></i> Configuration</a>
-                    </li>
-                    <li>
-                        <a href="#quickstart" aria-controls="quickstart" role="tab" data-toggle="tab"><i class="fa fa-fw fa-dot-circle-o"></i> Quickstart</a>
-                    </li>
-                    <li>
-                        <a href="#api" aria-controls="api" role="tab" data-toggle="tab"><i class="fa fa-fw fa-exchange"></i> API</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Main concepts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
+                            <li>
+                                <a href="#http"><i class="fa fa-fw fa-download"></i>HTTP Request</a>
+                            </li>
                             <li>
                                 <a href="#"><i class="fa fa-fw fa-file-image-o"></i>Images</a>
                             </li>
@@ -106,6 +103,9 @@
                                 <a href="#"><i class="fa fa-fw fa-dashboard"></i>Performance</a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a href="#api" aria-controls="api" role="tab" data-toggle="tab"><i class="fa fa-fw fa-exchange"></i> API</a>
                     </li>
                     <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-search-plus"></i> Concrete use cases</a>
@@ -201,6 +201,313 @@
                 </div>
 
 
+            </div>
+
+            <!--
+                  _____           _        _ _       _   _                 __
+                 |_   _|         | |      | | |     | | (_)               / /
+                   | |  _ __  ___| |_ __ _| | | __ _| |_ _  ___  _ __    / / __ _   _ _ __
+                   | | | '_ \/ __| __/ _` | | |/ _` | __| |/ _ \| '_ \  / / '__| | | | '_ \
+                  _| |_| | | \__ \ || (_| | | | (_| | |_| | (_) | | | |/ /| |  | |_| | | | |
+                 |_____|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_/_/ |_|   \__,_|_| |_|
+
+            -->
+            <div class="tab-pane active container-fuild" id="installation">
+				<h1>Installation</h1>
+
+                <h3>Requirements</h3>
+
+                <ul>
+                    <li>Linux, Mac OS (Windows should work)</li>
+                    <li>Java 8</li>
+                    <li>Redis (not mandatory)</li>
+                    <li>Tomcat 7 (not mandatory)</li>
+                </ul>
+
+                <p class="bg-warning">Redis is mandatory if you want persistance.
+                    If you use Memory mode, you will lost your data if you reboot the app.</p>
+
+                <h3>Download</h3>
+
+                <a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank"><strong>Download the last distribution here</strong></a>
+
+                <p>
+                    The retrieval-*.war file from the zip is a war with an embedded TOMCAT server (for quick install).
+                    The other war (.war.original) can be install inside a web server/servlet container (only test with tomcat).
+                </p>
+
+                <h3>Quick install</h3>
+
+                <ol>
+                    <li><a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank">Download the last distribution</a></li>
+                    <li>
+                        Replace $VERSION with the last version and run:
+                          <pre>
+                                <code data-language="shell">
+    unzip CBIRest-$VERSION.zip
+    cd CBIRest-$VERSION
+    java -jar retrieval-$VERSION-SNAPSHOT.war --spring.profiles.active=prod --retrieval.store.name=MEMORY
+                                </code>
+                          </pre>
+                    </li>
+                    <li>open your browser and go to <i>http://localhost:9999/</i></li>
+                </ol>
+
+                <h3>Advanced install</h3>
+
+                The advanced installation use redis instead of a simple memory database.
+                <ol>
+                    <li><a href="http://redis.io/download">Download Redis</a></li>
+                    <li>Install Redis if not yet done.
+                        By default, Redis needs to be run on localhost:6379 (default value).
+                    </li>
+                    <li>Launch Redis if not yet done:
+                          <pre>
+                                <code data-language="shell">
+    ./redis-server
+                                </code>
+                          </pre>
+                    </li>
+
+                    <li>See the Quick install task (replace --retrieval.store.name=MEMORY with --retrieval.store.name=REDIS</i></li>
+                </ol>
+
+                if you want to install CBIRest inside a "real" apache tomcat server, you can put move the .war.original file inside the tomcat webapps/ directory.
+
+                <h3>Perform a quick test</h3>
+
+                When you first run the software, you can easily index a dataset.
+
+                The WANG dataset:
+                <ol>
+                    <li>
+                        Download the <a href="http://wang.ist.psu.edu/~jwang/test1.tar">images archive (+-40MO)</a> from http://wang.ist.psu.edu/docs/related/.
+                    </li>
+                    <li>
+                        Extract the dataset
+                    </li>
+                    <li>
+                        Run this command when you want to start CBIRest (replace $PATH with the dataset path, $VERSION with the good version):
+                           <pre>
+                                <code data-language="shell">
+    java -jar retrieval-$VERSION-SNAPSHOT.war
+                                    --spring.profiles.active=prod
+                                    --retrieval.store.name=MEMORY
+                                    --retrieval.dataset.load=true
+                                    --retrieval.dataset.path=$PATH
+                                </code>
+                          </pre>
+                    </li>
+                </ol>
+
+                You can take your own dataset. The Dataset must be directory with image number name (0.png, 123.jpg,…).
+
+                <h3>Build from sources</h3>
+
+                <ol>
+                    <li>Source can be found on github: <a href="https://github.com/loic911/CBIRestAPI">github.com/loic911/CBIRestAPI</a> </li>
+                    <li>
+                          <pre>
+                                <code data-language="shell">
+    mvn -Pprod package -Dmaven.test.skip=true
+                                </code>
+                          </pre>
+                    </li>
+                    <li>
+                        War(s) should be available in target/
+                    </li>
+                    <li>
+                        Create a new directory based on release/template and copy the war(s) file(s).
+                        You should be able to run the installation steps.
+                    </li>
+                </ol>
+
+
+
+            </div>
+
+            <!--
+			   _____             __ _                       _   _             
+			  / ____|           / _(_)                     | | (_)            
+			 | |     ___  _ __ | |_ _  __ _ _   _ _ __ __ _| |_ _  ___  _ __  
+			 | |    / _ \| '_ \|  _| |/ _` | | | | '__/ _` | __| |/ _ \| '_ \ 
+			 | |___| (_) | | | | | | | (_| | |_| | | | (_| | |_| | (_) | | | |
+			  \_____\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__|_|\___/|_| |_|
+						               __/ |                                  
+						              |___/                                   
+
+            -->
+            <div class="tab-pane active container-fuild" id="configuration">
+				<h1>Configuration</h1>
+
+                <h3>CBIRest API Configutation</h3>
+                Main configuration flags for CBIRest application
+
+                How it works: just append them after the "java -jar..." when you launch the app. E.g. <i>--retrieval.store.name=MEMORY</i>
+
+                =prod
+                --retrieval.store.name=MEMORY
+                =true
+                --retrieval.dataset.path=$PATH
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Values</th>
+                            <th>By default</th>
+                        </tr>
+                    </thead>
+
+
+                    <tr>
+                        <td>--retrieval.store.name</td>
+                        <td>MEMORY (by default in dev), REDIS (by default in prod)</td>
+                        <td>Change the database engine. Memory is not persistant!</td>
+                    </tr>
+
+                    <tr>
+                        <td>--retrieval.dataset.load</td>
+                        <td>true, false (by default)</td>
+                        <td>Flag if the app must index a dataset at the startup (see "Perform a quick test" section)</td>
+                    </tr>
+
+                    <tr>
+                        <td>--retrieval.dataset.path</td>
+                        <td>A path</td>
+                        <td>Dataset path, only usefull if --retrieval.dataset.load is true </td>
+                    </tr>
+                </table>
+
+                These configuration parameters have the highest priority.
+
+
+                <h3>CBIRetrieval Configuration</h3>
+
+                CBIRest API is a HTTP API for the CBIRetrieval Java lib. Most of the configuration are defined by the config/ConfigServer.prop and ConfigClient.prop files.
+                You can customize quality/performance/database/...
+                Check the config/*.prop files inside your installation package to have the last version.
+                <pre>
+                <code data-language="shell">
+                    #######################################################
+                    ###
+                    ### Information about quality / speedup
+                    ###
+                    #######################################################
+
+                    # Number of patch (N) for index request picture
+                    # HIGHT = better quality, bad perf
+                    NUMBEROFPATCH=1000
+
+                    # Number of test vector (T), max 50
+                    # HIGHT = better quality, bad perf
+                    NUMBEROFTV=5
+
+                    # Resize method use (influence performance): 1=BILL/Graphics2D, 2=PPV/Graphics2D, 3=BILL/AffineTransformOp et 4=PPV/AffineTransformOp
+                    RESIZEMETHOD=3
+
+                    # Maximum NBT for a visual word (0 = no max). Avoid very big entry with all pictures
+                    INDEXCOMPRESSTHRESHOLD=5000
+
+                    # Maximum percentage (between 0 and 1) of a word from a picture (0 = no max). Avoid too homogenous pictures
+                    MAXPERCTENTAGESIMILARWORD=0
+
+                    #######################################################
+                    ###
+                    ### Information about tests vectors and patch build
+                    ### Note: Must be the same as central server and other servers config
+                    ###
+                    #######################################################
+
+                    # Path to the tests vectors
+                    VECTORPATH=testsvectors/
+
+                    # Size of patch generation (width)
+                    SIZEOFPATCHRESIZEWIDTH=16
+
+                    # Size of patch generation (height)
+                    SIZEOFPATCHRESIZEHEIGHT=16
+
+                    #######################################################
+                    ###
+                    ### Information about security
+                    ###
+                    #######################################################
+
+                    # Max similar pictures for a request
+                    KMAX=9999999
+
+                    # Max search request at the same time
+                    SEARCHMAX=9999999
+
+                    # Size of index queue
+                    SIZEOFINDEXQUEUE=1000000
+
+                    #######################################################
+                    ###
+                    ### Information about database
+                    ###
+                    #######################################################
+
+                    # Store name: MEMORY, KYOTO, KYOTOSINGLEFILE, REDIS, NESSDB, BDB, ...
+                    STORENAME=MEMORY
+
+                    # Path of index files
+                    INDEXPATH=index/
+
+                    # Structure type of value (hashmap=0,treemap=1)
+                    STRUCTYPE = 0
+
+                    # Default start size for hashmap map with a visual word  (only effect if STRUCTYPE=0)
+                    HASHMAPSTARTSIZE=32
+
+                    # Force sync database on disk avec each index images (only effect with some DB: Redis, BDB,...)
+                    SYNCAFTERIMAGE=TRUE
+
+                    ##################
+                    ###
+                    ### MEMORY
+                    ###
+                    ##################
+
+                    # Start size for only-memory index (only effect if STORENAME=MEMORY)
+                    MEMORYSTARTSIZE = 4096
+
+
+                    ##################
+                    ###
+                    ### REDIS
+                    ###
+                    ##################
+
+                    #DATABASES (redis.conf) must be equal to (S*T*1)+(S*3)+(S*T*1)
+
+                    # Redis host adress
+                    REDISHOST=localhost
+
+                    # Redis host port
+                    REDISPORT=6379
+                </code>
+                </pre>
+
+
+
+            </div>
+
+            <!--
+			   ____        _      _        _             _   
+			  / __ \      (_)    | |      | |           | |  
+			 | |  | |_   _ _  ___| | _____| |_ __ _ _ __| |_ 
+			 | |  | | | | | |/ __| |/ / __| __/ _` | '__| __|
+			 | |__| | |_| | | (__|   <\__ \ || (_| | |  | |_ 
+			  \___\_\\__,_|_|\___|_|\_\___/\__\__,_|_|   \__|
+						                                     
+                                                                                  
+
+            -->
+            <div class="tab-pane active container-fuild" id="http">
+				<h1>HTTP Request</h1>
+
                 <h2>How it works</h2>
 
                 <h3>Index</h3>
@@ -228,131 +535,11 @@
 
             </div>
 
-            <!--
-                  _____           _        _ _       _   _                 __
-                 |_   _|         | |      | | |     | | (_)               / /
-                   | |  _ __  ___| |_ __ _| | | __ _| |_ _  ___  _ __    / / __ _   _ _ __
-                   | | | '_ \/ __| __/ _` | | |/ _` | __| |/ _ \| '_ \  / / '__| | | | '_ \
-                  _| |_| | | \__ \ || (_| | | | (_| | |_| | (_) | | | |/ /| |  | |_| | | | |
-                 |_____|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_/_/ |_|   \__,_|_| |_|
-
-            -->
-            <div class="tab-pane active container-fuild" id="installation">
-				<h1>Installation</h1>
-
-                <h3>Requirements</h3>
-
-                For the quick install:
-                <ul>
-                    <li>Linux, Mac OS (Windows should work)</li>
-                    <li>Java 8</li>
-                </ul>
-
-                For more advanced install:
-                <ul>
-                    <li>Linux, Mac OS (Windows should work)</li>
-                    <li>Java 8</li>
-                    <li>Tomcat 7 (not mandatory)</li>
-                    <li>Redis (not mandatory)</li>
-                </ul>
-
-                <p class="bg-warning">Redis is mandatory if you want persistance.
-                    If you use Memory mode, you will lost your data if you reboot the app.</p>
-
-                <h3>Download</h3>
-
-                <a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank"><strong>Download dist here</strong></a>
-
-                <p>The retrieval-*.war file is a war with an embedded TOMCAT server (for quick install).
-                    The other war (.war.original) can be install inside a web server/servlet container (only test with tomcat).
-                </p>
-
-                <h3>Quick install (Test)</h3>
-
-                <ol>
-                    <li>Create /data/retrieval directory</li>
-                    <li><a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank">Download the last retrieval-*-auto.war release.</a></li>
-                    <li>Open a terminal and Run:
-                          <pre>
-                                <code data-language="shell">
-    java -jar $WAR_LOCATION.war --spring.profiles.active=prod --retrieval.store.name=MEMORY
-                                </code>
-                          </pre>
-                        Just replace $WAR_LOCATION with your war full path (e.g. retrieval-0.1-SNAPSHOT.war).
-                    </li>
-                    <li>open your browser and go to <i>http://localhost:9999/</i></li>
-                </ol>
 
 
 
 
-                <h3>Full install (Prod)</h3>
 
-                <ol>
-                    <li>Create /data/retrieval directory</li>
-                    <li><a href="http://redis.io/download">Download Redis</a></li>
-                    <li>Install Redis if not yet done.
-                        By default, Redis needs to be run on localhost:6379 (default value).
-                    </li>
-                    <li>Launch Redis if not yet done:
-                          <pre>
-                                <code data-language="shell">
-    ./redis-server
-                                </code>
-                          </pre>
-                    </li>
-                    <li>Install Tomcat if not yet done</li>
-                    <li><a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank">Download the last retrieval*.war release.</a></li>
-                    <li>Copy the war file in the tomcat webapps directory</li>
-                    <li>open your browser and go to <i>http://localhost:9999/</i></li>
-                </ol>
-
-
-                <h3>Build from sources</h3>
-
-                <ol>
-                    <li>Source can be found on github: <a href="https://github.com/loic911/CBIRestAPI">github.com/loic911/CBIRestAPI</a> </li>
-                </ol>
-
-
-
-            </div>
-
-            <!--
-			   _____             __ _                       _   _             
-			  / ____|           / _(_)                     | | (_)            
-			 | |     ___  _ __ | |_ _  __ _ _   _ _ __ __ _| |_ _  ___  _ __  
-			 | |    / _ \| '_ \|  _| |/ _` | | | | '__/ _` | __| |/ _ \| '_ \ 
-			 | |___| (_) | | | | | | | (_| | |_| | | | (_| | |_| | (_) | | | |
-			  \_____\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__|_|\___/|_| |_|
-						               __/ |                                  
-						              |___/                                   
-
-            -->
-            <div class="tab-pane active container-fuild" id="configuration">
-				<h1>Configuration</h1>
-
-
-
-            </div>
-
-            <!--
-			   ____        _      _        _             _   
-			  / __ \      (_)    | |      | |           | |  
-			 | |  | |_   _ _  ___| | _____| |_ __ _ _ __| |_ 
-			 | |  | | | | | |/ __| |/ / __| __/ _` | '__| __|
-			 | |__| | |_| | | (__|   <\__ \ || (_| | |  | |_ 
-			  \___\_\\__,_|_|\___|_|\_\___/\__\__,_|_|   \__|
-						                                     
-                                                                                  
-
-            -->
-            <div class="tab-pane active container-fuild" id="quickstart">
-				<h1>Quickstart</h1>
-
-
-
-            </div>
 
 
             <!--
