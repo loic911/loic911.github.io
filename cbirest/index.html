@@ -26,6 +26,13 @@
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
+    <script src="js/rainbow/rainbow.min.js"></script>
+    <script src="js/rainbow/language/generic.js"></script>
+    <script src="js/rainbow/language/html.js"></script>
+    <script src="js/rainbow/language/css.js"></script>
+    <script src="js/rainbow/language/javascript.js"></script>
+    <script src="js/rainbowlines/rainbow.linenumbers.js"></script>
+
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -67,12 +74,12 @@
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
+                <ul class="nav side-nav">
                     <li role="presentation" class="active">
-                        <a href="#presentation" aria-controls="presentation" role="tab" data-toggle="tab"><i class="fa fa-fw fa-home"></i> Presentation</a>
+                        <a href="#presentation" aria-controls="presentation" style="color:#999999;"><i class="fa fa-fw fa-home"></i> Presentation</a>
                     </li>
                     <li>
-                        <a href="#installation" aria-controls="installation" role="tab" data-toggle="tab"><i class="fa fa-fw fa-laptop"></i> Installation/run</a>
+                        <a href="#installation" aria-controls="installation" style="color:#999999;"><i class="fa fa-fw fa-laptop"></i> Installation/run</a>
                     </li>
                     <li role="configuration" >
                         <a href="#configuration" aria-controls="configuration" role="tab" data-toggle="tab"><i class="fa fa-fw fa-wrench"></i> Configuration</a>
@@ -232,6 +239,50 @@
             <div class="tab-pane active container-fuild" id="installation">
 				<h1>Installation</h1>
 
+                <h3>Requirements</h3>
+
+                For the quick install:
+                <ul>
+                    <li>Linux, Mac OS (Windows should work)</li>
+                    <li>Java 8</li>
+                </ul>
+
+                For more advanced install:
+                <ul>
+                    <li>Linux, Mac OS (Windows should work)</li>
+                    <li>Java 8</li>
+                    <li>Tomcat 7 (not mandatory)</li>
+                    <li>Redis (not mandatory)</li>
+                </ul>
+
+                <h3>Download</h3>
+
+                <a href="https://github.com/loic911/CBIRestAPI/releases" target="_blank"><strong>Download dist here</strong></a>
+
+                <p>The retrieval-*-auto.war file is a war with an embedded TOMCAT server (for quick install).
+                    The other war can be install inside a web server/servlet container (only test with tomcat).
+                </p>
+
+                <h3>Quick install (Test)</h3>
+
+                <ol>
+                    <li>Download the last retrieval-*-auto.war release</li>
+                    <li>Open a terminal and Run:
+                          <pre>
+                                <code data-language="shell">
+    java -jar $WAR_LOCATION.war --spring.profiles.active=prod --retrieval.store.name=MEMORY
+                                </code>
+                          </pre>
+                        Just replace $WAR_LOCATION with your war full path (e.g. retrieval-0.1-SNAPSHOT.war)
+                    </li>
+                    <li>open your browser and go to http://localhost:9999/</li>
+                </ol>
+
+
+
+
+                <h3>Full install (Prod)</h3>
+                Shell
 
 
             </div>
@@ -293,7 +344,7 @@
 
 
 
-            <div class="tab-pane container-fuild" id="configuration">Test</div>
+            <div class="tab-pane container-fuild" id="test">Test</div>
 
         </div>
         <!-- /#page-wrapper -->
