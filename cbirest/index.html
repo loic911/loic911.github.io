@@ -100,13 +100,13 @@
                                 <a href="#searchapi"><i class="fa fa-fw fa-search"></i> Search API</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-database"></i> Redis</a>
+                                <a href="#db"><i class="fa fa-fw fa-database"></i> Databases</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-dashboard"></i> Performance</a>
+                                <a href="#performance"><i class="fa fa-fw fa-dashboard"></i> Performance/Speed</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-bar-chart"></i> Distributed/Scalability</a>
+                                <a href="#scalability"><i class="fa fa-fw fa-bar-chart"></i> Distributed/Scalability</a>
                             </li>
                         </ul>
                     </li>
@@ -177,6 +177,11 @@
                 <a href="https://http://redis.io/" target="_blank">Redis (NoSQL key value store)</a> and
                 <a href="https://jhipster.github.io/" target="_blank">Jhipster</a>
 
+                </p>
+
+                <p class="bg-success" style="padding:15px;">
+                    If you are looking for a Content-based image retrieval Java library, you should see <a href="https://github.com/loic911/CBIRetrieval" target="_blank">CBIRetrieval Java lib</a>.
+                    It provides the same functionalities as the CBIRest API, but you can use it as a simple app/server (command line) or as a JAR in your own JVM app/server (java import).
                 </p>
 
 
@@ -277,6 +282,11 @@
                 </ol>
 
                 if you want to install CBIRest inside a "real" apache tomcat server, you can put move the .war.original file inside the tomcat webapps/ directory.
+
+                <p class="bg-danger" style="padding:15px;">
+                    When you are ready, change your user/admin password (user/user, admin/admin by default)!!!
+                </p>
+
 
                 <h3>Perform a quick test</h3>
 
@@ -672,7 +682,7 @@
                                         |___/
                             -->
 
-            <div class="tab-pane active container-fuild" id="storagessapi">
+            <div class="tab-pane active container-fuild" id="storagesapi">
                 <h1>Storages API</h1>
 
                 <h3>Presentation</h3>
@@ -842,7 +852,52 @@
 
             </div>
 
+            <div class="tab-pane active container-fuild" id="db">
+                <h1>Databases</h1>
 
+                <p>Image data needs to be store in very large hash table.
+                You can choose between MEMORY or REDIS implementation.</p>
+
+                <ul>
+                    <li><strong>MEMORY</strong>: easy to use (no external app needed) and very fast but it use a lot of memory and its not persistent.
+                        If your app crash, you need to index again all images after rebooting.</li>
+                    <li><strong>REDIS</strong>: powerful free key-value database with persistence support.</li>
+                </ul>
+
+
+            </div>
+
+            <div class="tab-pane active container-fuild" id="performance">
+                <h1>Performance/Speed</h1>
+
+                Some tips to improve performance:
+                <ul>
+                    <li>
+                        <strong>Reduce NUMBEROFPATCH:</strong> Each time you index an image, there will be NUMBEROFPATCH * NUMBEROFTV data that will be store. If you reduce this number, the results quality will be poor but the speed will be better.
+                        If you reduce this number in config/ConfigServer.prop file, index and search will be faster. IF YOU CHANGE THIS NUMBER, YOU MUST DROP YOUR EXISTING INDEX AND REINDEX ALL YOUR IMAGES!!!
+                        if you reduce this number in config/ConfigClient.prop file, search will be faster (but no need to reindex).
+                    </li>
+                    <li>
+                        <strong>Reduce NUMBEROFTV:</strong> If you reduce this number, the results quality will be poor but the speed will be better too.
+                    </li>
+                    <li>
+                        <strong>MEMORY VS REDIS:</strong> Memory has better performance than Redis.
+                    </li>
+                    <li>
+                        <strong>Use Storage:</strong> See storage section.
+                    </li>
+                </ul>
+
+
+
+            </div>
+
+            <div class="tab-pane active container-fuild" id="scalability">
+                <h1>Scalability</h1>
+
+                The <strong>CBIRetrieval Java lib</strong> used in <strong>CBIRest API</strong>.
+
+            </div>
             <!--&lt;!&ndash;-->
               <!--/ __ \| | | |-->
              <!--| |  | | |_| |__   ___ _ __ ___-->
@@ -891,7 +946,7 @@
 						                                                                        
 
             -->
-            <div class="tab-pane active container-fuild" id="api">
+            <div class="tab-pane active container-fuild" id="concrete">
 				<h1>Concrete use case</h1>
 
                 <h2>Integration with Cytomine</h2>
@@ -954,7 +1009,7 @@
                     <ul>
                         <li>Better integration with redis</li>
                         <li>Improve web UI</li>
-                        <li>...</li>
+                        <li>Add new database support</li>
                     </ul>
                     Don't hesitate to fork/contribute!
                 </p>
@@ -986,7 +1041,7 @@
                 <pre>
                     <code data-language="java">
         /*
-        * Copyright 2009-2015. Authors: ROLLUS Loïc.
+        * Copyright 2015. Authors: ROLLUS Loïc.
         *
         * Licensed under the Apache License, Version 2.0 (the "License");
         * you may not use this file except in compliance with the License.
