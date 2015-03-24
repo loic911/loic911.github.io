@@ -91,10 +91,16 @@
                                 <a href="#http"><i class="fa fa-fw fa-download"></i>HTTP Request</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-file-image-o"></i>Images</a>
+                                <a href="#imagesapi"><i class="fa fa-fw fa-file-image-o"></i>Images API</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-folder"></i>Storages</a>
+                                <a href="#storagesapi"><i class="fa fa-fw fa-folder"></i>Storages API</a>
+                            </li>
+                            <li>
+                                <a href="#searchapi"><i class="fa fa-fw fa-folder"></i>Search API</a>
+                            </li>
+                            <li>
+                                <a href="#othersapi"><i class="fa fa-fw fa-folder"></i>Others API</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-fw fa-database"></i>Redis</a>
@@ -224,7 +230,8 @@
                     <li>Tomcat 7 (not mandatory)</li>
                 </ul>
 
-                <p class="bg-warning">Redis is mandatory if you want persistance.
+
+                <p class="bg-warning" style="padding:15px;">Redis is mandatory if you want persistance.
                     If you use Memory mode, you will lost your data if you reboot the app.</p>
 
                 <h3>Download</h3>
@@ -340,15 +347,23 @@
             <div class="tab-pane active container-fuild" id="configuration">
 				<h1>Configuration</h1>
 
+                <p>
+                    Configuration can be done on multiple level.
+                    <ul>
+                        <li>CBIRest API: configuration for the main CBIR system. </li>
+                        <li>CBIRetrieval: more precise configuration for the CBIR engine.</li>
+                        <li>Redis: configuration for the database.</li>
+                    </ul>
+                </p>
+
+
                 <h3>CBIRest API Configutation</h3>
-                Main configuration flags for CBIRest application
 
-                How it works: just append them after the "java -jar..." when you launch the app. E.g. <i>--retrieval.store.name=MEMORY</i>
-
-                =prod
-                --retrieval.store.name=MEMORY
-                =true
-                --retrieval.dataset.path=$PATH
+                <p>
+                    Main configuration flags for CBIRest application.
+                    Just append these config params after the "java -jar..." command when you launch the app.
+                    E.g. <i>--retrieval.store.name=MEMORY</i>.
+                </p>
 
                 <table class="table">
                     <thead>
@@ -379,129 +394,100 @@
                     </tr>
                 </table>
 
-                These configuration parameters have the highest priority.
 
 
                 <h3>CBIRetrieval Configuration</h3>
 
-                CBIRest API is a HTTP API for the CBIRetrieval Java lib. Most of the configuration are defined by the config/ConfigServer.prop and ConfigClient.prop files.
-                You can customize quality/performance/database/...
+                <p>CBIRest API is a HTTP API for the CBIRetrieval Java lib. Most of the configuration are defined by the configuration files from CBIRetrieval Java lib: config/ConfigServer.prop and config/ConfigClient.prop.
                 Check the config/*.prop files inside your installation package to have the last version.
-                <pre>
-                <code data-language="shell">
-                    #######################################################
-                    ###
-                    ### Information about quality / speedup
-                    ###
-                    #######################################################
+                The full documentation is available on the <a href="https://github.com/loic911/CBIRetrieval/wiki" target="_blank">CBIRetrieval Java lib wiki</a>.</p>
 
-                    # Number of patch (N) for index request picture
-                    # HIGHT = better quality, bad perf
-                    NUMBEROFPATCH=1000
-
-                    # Number of test vector (T), max 50
-                    # HIGHT = better quality, bad perf
-                    NUMBEROFTV=5
-
-                    # Resize method use (influence performance): 1=BILL/Graphics2D, 2=PPV/Graphics2D, 3=BILL/AffineTransformOp et 4=PPV/AffineTransformOp
-                    RESIZEMETHOD=3
-
-                    # Maximum NBT for a visual word (0 = no max). Avoid very big entry with all pictures
-                    INDEXCOMPRESSTHRESHOLD=5000
-
-                    # Maximum percentage (between 0 and 1) of a word from a picture (0 = no max). Avoid too homogenous pictures
-                    MAXPERCTENTAGESIMILARWORD=0
-
-                    #######################################################
-                    ###
-                    ### Information about tests vectors and patch build
-                    ### Note: Must be the same as central server and other servers config
-                    ###
-                    #######################################################
-
-                    # Path to the tests vectors
-                    VECTORPATH=testsvectors/
-
-                    # Size of patch generation (width)
-                    SIZEOFPATCHRESIZEWIDTH=16
-
-                    # Size of patch generation (height)
-                    SIZEOFPATCHRESIZEHEIGHT=16
-
-                    #######################################################
-                    ###
-                    ### Information about security
-                    ###
-                    #######################################################
-
-                    # Max similar pictures for a request
-                    KMAX=9999999
-
-                    # Max search request at the same time
-                    SEARCHMAX=9999999
-
-                    # Size of index queue
-                    SIZEOFINDEXQUEUE=1000000
-
-                    #######################################################
-                    ###
-                    ### Information about database
-                    ###
-                    #######################################################
-
-                    # Store name: MEMORY, KYOTO, KYOTOSINGLEFILE, REDIS, NESSDB, BDB, ...
-                    STORENAME=MEMORY
-
-                    # Path of index files
-                    INDEXPATH=index/
-
-                    # Structure type of value (hashmap=0,treemap=1)
-                    STRUCTYPE = 0
-
-                    # Default start size for hashmap map with a visual word  (only effect if STRUCTYPE=0)
-                    HASHMAPSTARTSIZE=32
-
-                    # Force sync database on disk avec each index images (only effect with some DB: Redis, BDB,...)
-                    SYNCAFTERIMAGE=TRUE
-
-                    ##################
-                    ###
-                    ### MEMORY
-                    ###
-                    ##################
-
-                    # Start size for only-memory index (only effect if STORENAME=MEMORY)
-                    MEMORYSTARTSIZE = 4096
+                <p>You can change these parameters by editing the ConfigServer and configClient.prop files.
+                    Some of these configuration can be overrided by the CBIRest API configuration flags. For the default value, check your Config*.prop files.
+                </p>
 
 
-                    ##################
-                    ###
-                    ### REDIS
-                    ###
-                    ##################
 
-                    #DATABASES (redis.conf) must be equal to (S*T*1)+(S*3)+(S*T*1)
+                <p>We just list here the most important flags:</p>
 
-                    # Redis host adress
-                    REDISHOST=localhost
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Values</th>
+                        <th>By default</th>
+                    </tr>
+                    </thead>
 
-                    # Redis host port
-                    REDISPORT=6379
-                </code>
-                </pre>
 
+                    <thead>
+                    <tr>
+                        <th>Database config</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+
+                    <tr>
+                        <td>STORENAME</td>
+                        <td>MEMORY, REDIS</td>
+                        <td>Change the database engine. Memory is not persistent!</td>
+                    </tr>
+
+                    <tr>
+                        <td>REDISHOST</td>
+                        <td>IP, server name,...</td>
+                        <td>If you use Redis, Redis host.</td>
+                    </tr>
+
+                    <tr>
+                        <td>REDISPORT</td>
+                        <td>Port</td>
+                        <td>If you use Redis, Redis port</td>
+                    </tr>
+                    <thead>
+                    <tr>
+                        <th>Quality VS speed config</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tr>
+                        <td>NUMBEROFPATCH</td>
+                        <td>Number</td>
+                        <td>Number of patch (N) for index request picture. HIGH = better quality, bad perf</td>
+                    </tr>
+                    <tr>
+                        <td>NUMBEROFTV</td>
+                        <td>Number (max 50)</td>
+                        <td>Number of test vector (T), HIGH = better quality, bad perf</td>
+                    </tr>
+                    <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>VECTORPATH</td>
+                        <td>Path</td>
+                        <td>Path to the tests vectors (testsvectors/)</td>
+                    </tr>
+                </table>
             </div>
 
             <!--
-			   ____        _      _        _             _   
-			  / __ \      (_)    | |      | |           | |  
-			 | |  | |_   _ _  ___| | _____| |_ __ _ _ __| |_ 
-			 | |  | | | | | |/ __| |/ / __| __/ _` | '__| __|
-			 | |__| | |_| | | (__|   <\__ \ || (_| | |  | |_ 
-			  \___\_\\__,_|_|\___|_|\_\___/\__\__,_|_|   \__|
-						                                     
-                                                                                  
-
+                  _    _ _______ _______ _____    _____                            _
+                 | |  | |__   __|__   __|  __ \  |  __ \                          | |
+                 | |__| |  | |     | |  | |__) | | |__) |___  __ _ _   _  ___  ___| |_
+                 |  __  |  | |     | |  |  ___/  |  _  // _ \/ _` | | | |/ _ \/ __| __|
+                 | |  | |  | |     | |  | |      | | \ \  __/ (_| | |_| |  __/\__ \ |_
+                 |_|  |_|  |_|     |_|  |_|      |_|  \_\___|\__, |\__,_|\___||___/\__|
+                                                                | |
+                                                                |_|
             -->
             <div class="tab-pane active container-fuild" id="http">
 				<h1>HTTP Request</h1>
@@ -533,7 +519,167 @@
 
             </div>
 
+            <!--
+                  _____
+                 |_   _|
+                   | |  _ __ ___   __ _  __ _  ___  ___
+                   | | | '_ ` _ \ / _` |/ _` |/ _ \/ __|
+                  _| |_| | | | | | (_| | (_| |  __/\__ \
+                 |_____|_| |_| |_|\__,_|\__, |\___||___/
+                                         __/ |
+                                        |___/
+            -->
+            <div class="tab-pane active container-fuild" id="imagesapi">
+                <h1>Images API</h1>
 
+                <h3>Presentation</h3>
+
+                <p>Each image that appears in the CBIR results needs to be indexed to the server first.
+                The server extracts data and index these information in a specific storage database (MEMORY or REDIS).
+                    An image is identified with an id (long number) and you may add extra information (like date, path,...).
+                    Each time a new image is added, the server saves its thumb on the filesystem too.
+                </p>
+
+                <h3>Actions</h3>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Verb/Path</th>
+                        <th>Params</th>
+                        <th>Response</th>
+                    </tr>
+                    </thead>
+
+
+                    <tr>
+                        <td>Get all images</td>
+                        <td><strong>GET /api/images</strong></td>
+                        <td></td>
+                        <td>
+                            List of images data:
+                            <pre>
+                                <code data-language="javascript">
+    [{"id":"0","storage":"3", "key1":"value1",...},...}]
+                                </code>
+                          </pre>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Get all images for a storage</td>
+                        <td><strong>GET /api/{storage}/images</strong></td>
+                        <td>PATH storage: storage id</td>
+                        <td>
+                            List of images data:
+                            <pre>
+                                <code data-language="javascript">
+    [{"id":"0","storage":"3", "key1":"value1",...},...}]
+                                </code>
+                          </pre>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Get a single image data</td>
+                        <td><strong>GET /api/images/{id}</strong>, <strong>GET /api/storages/{storage}/images/{id}</strong> (better for performance)</td>
+                        <td>PATH id: image id, PATH storage: storage id</td>
+                        <td>
+                            Image data:
+                            <pre>
+                                <code data-language="javascript">
+    {"id":"0","storage":"3", "key1":"value1",...}
+                                </code>
+                          </pre>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Add a new image</td>
+                        <td><strong>POST /api/images</strong></td>
+                        <td>
+                            <ul>
+                                <li>QUERY id: image id (default: random id)</li>
+                                <li>QUERY storage: storage id (default: random storage)</li>
+                                <li>QUERY keys: list of properties keys (sep ";")</li>
+                                <li>QUERY values: list of properties values (sep ";")</li>
+                                <li>QUERY async: index image sync or async (default: false)</li>
+                                <li>MULTIPART file: image binary data</li>
+                            </ul>
+                        </td>
+                        <td>
+                            Image data:
+                            <pre>
+                                <code data-language="javascript">
+    {"id":"0","storage":"3", "key1":"value1",...}
+                                </code>
+                          </pre>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Delete an image image</td>
+                        <td><strong>DELETE /api/storages/{storage}/images/{id}</strong></td>
+                        <td>
+                            <ul>
+                                <li>PATH id: image id</li>
+                                <li>PATH storage: storage id</li>
+                            </ul>
+                        </td>
+                        <td>
+                            Deleted Image data:
+                            <pre>
+                                <code data-language="javascript">
+    {"id":"0","storage":"3", "key1":"value1",...}
+                                </code>
+                          </pre>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Retrieve image thumb</td>
+                        <td><strong>GET /api/images/{id}/thumb</strong></td>
+                        <td>
+                            <ul>
+                                <li>PATH id: image id</li>
+                            </ul>
+                        </td>
+                        <td>
+                            Image thumb
+                        </td>
+                    </tr>
+
+                </table>
+
+
+
+                <h2>How it works</h2>
+
+                <h3>Index</h3>
+                <p>
+                    You first need to index images on the server. CBIRest is incremental, this means that you can add new images to the index all over the time.
+                    Index image can be done with a POST /api/images. You need to provide the image binary data as a multipart content.
+                    You may specifiy the image id (by default: a random number), the storage (by default: a random storage) and some properties (by default: an empty map).
+                </p>
+
+                <h3>Search</h3>
+                <p>
+                    Simply provides an image and the storages (by default the search will be done on all available storages). The service can be reach thanks to a POST in /api/search.
+                    The CBIRest server provides a list of similar pictures (sort by similarities). For each image, the server return the id, storage and properties.
+                </p>
+
+
+
+                <div class="row">
+                    <div class="col-md-6"><img src="images/API_INDEX.png" class="img-responsive img-thumbnail" alt="Full demo doc">
+                    </div>
+                    <div class="col-md-6"><img src="images/API_SEARCH.png" class="img-responsive img-thumbnail" alt="Full demo doc">
+                    </div>
+                </div>
+
+
+            </div>
 
 
 
