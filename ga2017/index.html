@@ -1,0 +1,956 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/white.css">
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="15">
+        					<h1>From SQL to NoSQL databases</h1>
+                  <br/>
+        					<h3>Lo&iuml;c Rollus</h3>
+
+                  Geeks Anonymes - February 22, 2017
+        				</section>
+
+
+                <section data-ts="60">
+        					<h2>About me</h2>
+                  <pre>
+                    <code class="bash" data-trim contenteditable>
+ $whoami
+ Loic Rollus - "Software developer"
+
+ Currently: "Guardis (IT infrastructure - ComodIT.com)"
+ Previously: "GIGA ULg (Cytomine team)"
+
+ Web site: "http://loic.rollus.be"
+ Linkedin: "https://be.linkedin.com/in/loicrollus"
+
+ Geeks Anonymes (2013):
+ "Software Quality and Continous Integration with Cytomine"
+                    </code>
+                  </pre>
+        				</section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="75">
+                  <h2>From SQL to NoSQL databases</h2>
+
+                  <ul>
+                    <li class="fragment">Databases &rarr; DB Management Systems</li>
+                    <li class="fragment">SQL (language) &rarr; Relational (model)</li>
+                    <li class="fragment">NoSQL &rarr; Non-relational</li>
+                  </ul>
+                </section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="20">
+                  <h2><s>From SQL to NoSQL databases</s></h2>
+                  <h2 class="fragment">From Relational to Non relational database management systems</h2>
+
+                </section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="99">
+                  <h2>Table of contents</h2>
+
+                  <ul>
+                    <li class="fragment" data-fragment-index="3">Shopping app: presentation (1997)</li>
+                    <li class="fragment" data-fragment-index="1"><b>Relational (SQL) databases</b></li>
+                    <li class="fragment" data-fragment-index="4">Shopping app: limits with relational (2017)</li>
+                    <li class="fragment" data-fragment-index="2"><b>Non Relational (NoSQL) databases</b></li>
+                    <li class="fragment" data-fragment-index="5">Shopping app: NoSQL use cases</li>
+                  </ul>
+
+                </section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="20">
+                  <h2>Beer Shopping</h2>
+
+                  <img src="chimay-bleu.png" style="border:0px;"/>
+									<p>Belgium (1997)</p>
+                </section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="10">
+                    <h2>Back to the past...</h2>
+                    <img src="img/futur.png" style="width:400px;"/>
+                    <h2>1997</h2>
+                </section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="60">
+                     <iframe src="old.html" style="width:1200px;height:600px;"></iframe>
+
+                </section>
+                <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+              <section>
+                <ul>
+                    <li><b>Relational: PostgreSQL, MySQL, Oracle...</b></li>
+                </ul>
+              </section>
+              <!--
+                ###############################################################################
+                ###############################################################################
+                ###############################################################################
+                -->
+                <section data-ts="90">
+                  <h2>Relational (SQL)</h2>
+                  <p></p>
+
+                  <h3>Beer</h3>
+                  <table style="width:75%;font-size:28px">
+                  <tr>
+                    <th>Id (num)</th>
+                    <th>Name (str)</th>
+                    <th>Alcohol (dbl)</th>
+                    <th>Brand (num)</th>
+                  </tr>
+                  <tr>
+                    <td><span  style="color:#FF0000">16 (P.K.)</span></td>
+                    <td>Chimay Bleue</td>
+                    <td>9.0</td>
+                    <td><span  style="color:#FF0000">36 (F.K.)</span></td>
+                  </tr>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </table>
+
+                <h3 class="fragment">Brand</h3>
+                <table style="width:75%;font-size:28px" class="fragment">
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Location</th>
+                </tr>
+                <tr>
+                  <td><span  style="color:#FF0000">36</span></td>
+                  <td>Chimay</td>
+                  <td>Scourmont</td>
+                </tr>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </table>
+
+              <p class="fragment">Schema, Normalization, Constraints</p>
+              </section>
+              <!--
+              ###############################################################################
+              ###############################################################################
+              ###############################################################################
+              -->
+              <section data-ts="90">
+                  <h2>Relational (SQL)</h2>
+                  <p>Transactional ACID</p>
+                  <pre  class="fragment">
+                    <code class="sql" data-trim>
+BEGIN TRANSACTION
+UPDATE account set amount = amount + 500 WHERE username = 'lrollus';
+UPDATE account set amount = amount - 500 WHERE username = 'jfays';
+END;
+                    </code>
+                  </pre>
+                  <ul>
+                    <li class="fragment">Atomicity: all or nothing</li>
+                    <li class="fragment">Consistency: only valid data</li>
+                    <li class="fragment">Isolation: transaction do not affect each other</li>
+                    <li class="fragment">Durability: commit = not lost</li>
+                  </ul>
+                  <p class="fragment">Robustness, Consistency</p>
+              </section>
+              <!--
+              ###############################################################################
+              ###############################################################################
+              ###############################################################################
+              -->
+              <section data-ts="30">
+                  <h2>Relational (SQL)</h2>
+                  <h3>Scale up / Scale out</h3>
+                  <img src="img/scaleout.png" style="width:700px;"/>
+              </section>
+
+              <section data-ts="99">
+                  <h2>Scale out</h2>
+                  <!-- <h3>Scale out</h3> -->
+                  <ul>
+                  <li class="fragment" data-fragment-index="1">Sharding: different data on different nodes</li>
+                  <li class="fragment" data-fragment-index="2">Replication: same data over multiple nodes
+                    <ul>
+                      <li class="fragment" data-fragment-index="3">Master-slave: 1 m (rw), n sl. (r) sync   <span class="fragment" style="display:inline;" data-fragment-index="5"><b>&larr; SQL</b></span></li>
+
+                      <li class="fragment" data-fragment-index="4">Peer-to-peer: n "equal" nodes (r/w)</li>
+                    </ul>
+                </li>
+
+                </ul>
+                <img src="img/repshard.png" style="width:500px;"/>
+              </section>
+              <!--
+              ###############################################################################
+              ###############################################################################
+              ###############################################################################
+              -->
+              <section data-ts="30">
+                  <h2>Relational (SQL)</h2>
+                  <ul>
+                    <li>Schema, Constraints</li>
+                    <li>Normalization, Join</li>
+                    <li>Transactional (ACID)</li>
+                    <li>Scale up (scale out with master slave)</li>
+                    <li>SQL</li>
+                    <li>...</li>
+                  </ul>
+              </section>
+              <section data-ts="15">
+                  <h2>Belgium Beer shopping</h2>
+                  <p>
+                    Users requests / dataset size</li>
+                  </p>
+                  <img src="img/relation_scale1.png" style="width:500px;"/>
+                  <p>
+                    More ram, upgrade, more disk...</li>
+                  </p>
+              </section>
+              <section data-ts="10">
+                  <h2>Back to the futur...</h2>
+                  <img src="img/futur.png" style="width:400px;"/>
+                  <h2>2017</h2>
+              </section>
+              <section data-ts="10">
+                   <img src="img/new_empty.png" style="width:900px;"/>
+              </section>
+
+
+              <section data-ts="10">
+                  <h2><s>Belgium Beer shopping</s></h2>
+                  <h2>World Beer shopping</h2>
+              </section>
+              <section data-ts="20">
+                  <h2>World Beer shopping</h2>
+                  <p>
+                    Users requests / dataset size</li>
+                  </p>
+                  <img src="img/relation_scale2.png" style="width:600px;"/>
+                  <p>
+                    ...arggggggg!
+                  </p>
+              </section>
+
+                <section data-ts="45">
+                    <h2>Limits with relational</h2>
+                    <ol>
+                      <li>Scalability</li>
+                      <li>Development
+                        <ul class="fragment">
+                          <li>user sessions: relational</li>
+                          <li>recommandations: relational</li>
+                          <li>shopping cart: relational</li>
+                          <li>catalog: relational</li>
+                          <li>...</li>
+                        </ul>
+                      </li>
+                    </ol>
+                </section>
+
+                <!-- <section data-ts="30">
+
+                    <img src="img/sherlock.gif" style="width:500px;"/>
+                </section> -->
+
+              <section data-ts="10">
+                  <h1>NoSQL</h1>
+              </section>
+
+              <section data-ts="30">
+                <div>
+                  <p style="margin:5px;">NoSQL<span class="fragment">: without SQL?</span></p>
+                  <!-- <img class="fragment" src="img/nosql_expert.png" style="height:175px;margin:5px;"/> -->
+                </div>
+                <div class="fragment">
+                  <p style="margin:5px;" >Non-relational<span>: without relational model!</span></p>
+                  <img  src="img/nosqlcoder1.jpg" style="height:250px;margin:5px;"/>
+                </div>
+                <div>
+
+                </div>
+              </section>
+
+              <section data-ts="45">
+                <h2>SQL VS NoSQL</h2>
+
+
+                <ul class="fragment" style="list-style-type: none;">
+                    <li>Relational: PostgreSQL, MySQL, Oracle,...</li>
+                </ul>
+                <p class="fragment">VS</p>
+                <ul class="fragment" style="list-style-type: none;">
+                    <li>Key-Value: <b>Redis</b>, <b>Riak</b>, DynamoDB...</li>
+                    <li>Document: <b>MongoDB</b>, ElasticSearch, CouchDB,...</li>
+                    <li>Graph: <b>Neo4J</b>, InfiniteGraph,...</li>
+                    <li>Column: Cassandra, Hypertable, HBase,...</li>
+                    <li>Time series: InfluxDB, KairosDB,...</li>
+                    <li>...</li>
+                </ul>
+              </section>
+
+              <section data-ts="45">
+                <h2>NoSQL</h2>
+
+                <p>Most of them are:</p>
+                <ul>
+                  <li class="fragment"><s>schema</s></li>
+                  <li class="fragment">cluster friendly</li>
+                  <li class="fragment"><s>acid</s></li>
+                  <li class="fragment">open-source</li>
+                  <li class="fragment"><s>SQL</s></li>
+                  <li class="fragment">post 2000</li>
+                </ul>
+              </section>
+              <!-- <section data-ts="00">
+                <img src="img/final.jpg" style="width:550px;"/>
+                <p style="font-size:16px;">source: neo4j.com</p>
+              </section> -->
+
+              <section>
+                <ul>
+                    <li>Relational: PostgreSQL, MySQL, Oracle...</li>
+                    <li><b>Key-Value: <b>Redis</b>, <b>Riak</b>, DynamoDB...</b></li>
+                </ul>
+              </section>
+
+              <section data-ts="60">
+                <h2>Key-Value</h2>
+
+                <!-- <pre  class="fragment">
+                  <code class="java" data-trim>
+//key = value
+"16" = "Chimay Bleue"
+                  </code>
+                </pre> -->
+                <p>"16" = "Chimay Bleue"</p>
+                <ul style="list-style-type: none;">
+                  <li class="fragment">In memory key-value (e.g. Redis)</li>
+                  <li class="fragment">Full distributed Key-value (e.g. Riak)</li>
+                  <!-- <li>
+                  Use cases:
+                  <ul>
+                  <li>Storing Session Information</li>
+                  <li>Shopping Cart</li>
+                  <li>Cache</li>
+                  <li>...</li>
+                  </ul>
+                  </li> -->
+                </ul>
+
+
+              </section>
+
+              <section data-ts="45">
+                <h2>Key-Value In memory (Redis)</h2>
+
+                <img src="img/redis.png" style="width:500px;"/>
+
+                <ul>
+                  <li class="fragment">In-memory database / on-disk persistence</li>
+                  <li class="fragment">Fast / Light (empty instance: 1MB)</li>
+                  <li class="fragment">Complex values: List, Set, Hashmap,...</li>
+                  <li class="fragment">Replication (designed primarily as a single-server system)</li>
+
+                </ul>
+
+              </section>
+
+              <section data-ts="60">
+                <h2>Key-Value In memory (Redis)</h2>
+                <h3>Commands</h3>
+                <ul>
+                  <li class="fragment">175+ commands</li>
+                  <li class="fragment">From GET and SET...</li>
+                  <li class="fragment">...to ZREMRANGEBYRANK and ZREMRANGEBYSCORE</li>
+                  <li class="fragment">Lots of clients / many languages</li>
+                </ul>
+                <pre  class="fragment">
+                  <code class="java" data-trim>
+Jedis jedis = new Jedis("localhost", 6379);
+jedis.set("mykey", "Hello");
+String value = jedis.get("mykey");
+                  </code>
+                </pre>
+              </section>
+              <section data-ts="20">
+                <h2>Key-Value In memory (Redis)</h2>
+                <h3>Use case: User session</h3>
+                <img class="fragment" src="img/auth.png" style="width:500px;"/>
+              </section>
+
+              <section data-ts="99">
+                <h2>Key-Value In memory (Redis)</h2>
+                <h3>Use case: User session</h3>
+                <img src="img/UML_seq.png" style="width:600px;border:1"/>
+              </section>
+
+              <section data-ts="60">
+                <h2>Key-Value In memory (Redis)</h2>
+                <h3>Use case: User session</h3>
+
+
+                <pre  class="fragment">
+                  <code class="java" data-trim>
+//auth
+redis.set(token,username)
+//req
+username = redis.get(token)
+                  </code>
+                </pre>
+                <pre  class="fragment">
+                  <code class="java" data-trim>
+hset(token,"username",username)
+hset(token,"validity","2017-02-22")
+                  </code>
+                </pre>
+                <pre  class="fragment">
+                  <code class="java" data-trim>
+expire(token,7*24*60*60)
+                  </code>
+                </pre>
+                <!-- <ul  style="list-style-type: none;" >
+                  <li class="fragment">hset(token,"username",username)</li>
+                  <li class="fragment">hset(token,"validity","2017-02-22")</li>
+                  <li class="fragment">expire(token,7*24*60*60)</li>
+                </ul> -->
+              </section>
+
+              <section data-ts="60">
+                <h2>Key-Value In memory (Redis)</h2>
+                <h3>Use case: User session</h3>
+
+                <ul>
+                  <li class="fragment">Fast (memory, socket)</li>
+                  <li class="fragment">Simple (get/set)</li>
+                  <li class="fragment">Complex (175+ commands)</col></li>
+                  <li class="fragment">(Persistance)</li>
+                </ul>
+
+              </section>
+
+
+
+
+              <section data-ts="10">
+                  <h2>Riak</h2>
+              </section>
+
+
+              <section data-ts="60">
+                <h2>Key-Value Distribued (Riak)</h2>
+                <img src="img/riak.png" style="width:500px;"/>
+
+                <ul>
+                  <li>Dynamo paper (Amazon)</li>
+                  <li>REST API</li>
+                  <li><b>Peer-to-peer replication</b></li>
+                  <li>Inconsistency</li>
+                </ul>
+                </section>
+
+
+              <section data-ts="45">
+                <h2>Key-Value Distribued (Riak)</h2>
+                <h3>Use case: shopping cart</h3>
+
+                <img class="fragment" src="img/addcart.png" style="height:150px;"/>
+                <img class="fragment" src="img/money.gif" style="height:150px;"/>
+                <ul>
+                  <li class="fragment">Add to cart even if failure</li>
+                  <li class="fragment">Low latency</li>
+                  <li class="fragment">Web app growth &rarr; add nodes</li>
+                  <li class="fragment">Peak (e.g. christmas) &rarr; add and remove nodes</li>
+
+                </ul>
+                <!-- <p class="fragment">How to deal with inconsistencies?</p> -->
+
+              </section>
+              <section data-ts="45">
+                <h2>Key-Value Distribued (Riak)</h2>
+                <h3>Use case: shopping cart</h3>
+                <ul>
+                  <li class="fragment"><b>N</b>: number of replica</li>
+                  <li class="fragment"><b>W</b>: number of replica for successful write</li>
+                  <li class="fragment"><b>N-W</b>: write fault tolerance</li>
+                  <li class="fragment"><b>R</b>: number of replica for successful read</li>
+                  <li class="fragment"><b>N-R</b>: read fault tolerance</li>
+                </ul>
+              </section>
+              <section data-ts="45">
+                <h2>Key-Value Distribued (Riak)</h2>
+                <h3>Use case: shopping cart</h3>
+                <p>N=3, W=2, R=2</p>
+                <img src="img/riak4.jpg" style="width:550px;"/>
+              </section>
+
+              <section data-ts="30">
+                <h2>Key-Value Distribued (Riak)</h2>
+                <h3>Use case: shopping cart</h3>
+                <ul>
+                  <li class="fragment">Fast, low latency</li>
+                  <li class="fragment">P2P replication</li>
+                  <li class="fragment">Easy to add/remove nodes</li>
+                </ul>
+              </section>
+
+              <section data-ts="20">
+                <ul>
+                    <li>Relational: PostgreSQL, MySQL, Oracle...</li>
+                    <li>Key-Value: Redis, Riak, DynamoDB...</li>
+                    <li><b>Document: MongoDB, ElasticSearch, CouchDB,...</b></li>
+                </ul>
+              </section>
+
+              <section data-ts="60">
+                <h2>Document store</h2>
+
+                <p class="fragment">row = document (json, xml,...)</p>
+
+                <pre  class="fragment">
+                  <code class="json" data-trim>
+{ id: 16, name: "Chimay Bleue",
+  brand: {name: "Chimay"}, alcohol: 9 }
+                  </code>
+                </pre>
+
+                <ul>
+                  <li class="fragment">Schemaless</li>
+                  <li class="fragment">Freedom, flexibility :-)</li>
+                  <li class="fragment">Deal with nonuniform data :-(</li>
+                  <li class="fragment">Schemaless &rarr; implicit schema</li>
+                </ul>
+
+              </section>
+
+              <section data-ts="45">
+                <h2>Document store (MongoDB)</h2>
+                <img src="img/mongodb.png" style="width:400px;"/>
+
+                <ul>
+                  <li class="fragment">Document JSON (BSON)</li>
+                  <li class="fragment">Lots of clients / many languages</li>
+                  <li class="fragment">Replication / <b>Sharding</b></li>
+                  <li class="fragment">Indexing, GridFS (filesystem), Geospatial,...</li>
+                </ul>
+
+              </section>
+
+              <section data-ts="60">
+                <h2>Document store (MongoDB)</h2>
+                <h3>Sharding: split dataset</h3>
+
+                <ul>
+                  <li class="fragment">car &rarr; read from cars collection</li>
+                  <li class="fragment">car.engine &rarr; read from engines collection</li>
+                  <li class="fragment">car.cockpit &rarr; read from cockpits collection</li>
+                  <li class="fragment">...</li>
+                </ul>
+
+                <img class="fragment" src="img/carmounted.png" style="height:200px;"/>
+                <img class="fragment" src="img/car.jpg" style="height:200px;"/>
+
+                <p class="fragment" style="margin-top:0px;">Complex join on multiple nodes</p>
+
+
+              </section>
+
+
+              <section data-ts="45">
+                <h2>Document store (MongoDB)</h2>
+                <h3>Sharding:  aggregate / DDD</h3>
+
+                <p>Aggregate (Domain driven design)</p>
+
+                <p class="fragment">Collection of related objects that we wish to treat as a unit</p>
+                <pre  class="fragment">
+                  <code class="json" data-trim>
+{
+ id: 16,
+ name: "Golf 2",
+ brand: {id: 2, name: "VW"},
+ engine: {name: "136-150 hp 2.0 16V", configuration: "1,984 cc"},
+ assembly: ["Wolfsburg", "Brussels"],
+ ...
+}
+                  </code>
+                </pre>
+
+
+              </section>
+
+
+              <section data-ts="30">
+                <h2>Document store (MongoDB)</h2>
+                <h3>Use case: Beers catalog</h3>
+
+                <table>
+                  <tr>
+                    <td>
+                      <img class="fragment" src="img/beer.png" style="height:300px;"/></td>
+                    <td>
+                      <img class="fragment" src="img/noaggr.png" style="height:400px;"/>
+                    </td>
+                  </tr>
+                </table>
+              </section>
+              <section data-ts="45">
+                <h2>Document store (MongoDB)</h2>
+                <h3>Use case: Beers catalog</h3>
+
+                <table>
+                  <tr>
+                    <td>
+                      <img src="img/beer.png" style="height:300px;"/></td>
+                    <td>
+                      <img src="img/aggr.png" style="width:300px;"/>
+                    </td>
+                  </tr>
+                </table>
+              </section>
+
+
+              <section data-ts="90">
+                <h2>Document store (MongoDB)</h2>
+                <h3>Use case: Beers catalog</h3>
+  <img src="img/aggr.png" style="height:200px;"/>
+                <ul style="list-style-type: none;">
+                  <li>+ Only need to fetch 1 node, no join</li>
+                  <li>- Redundancy</li>
+                  <li>- Need to access root domain to read aggregates
+                      <ul>
+                        <li>Eager/Lazy Materialized views</li>
+                      </ul>
+                  </li>
+
+                </ul>
+              </section>
+
+
+              <section data-ts="30">
+                <h2>Document store (MongoDB)</h2>
+                <h3>Use case: Beers catalog</h3>
+                <ul>
+                  <li class="fragment">Product page = document</li>
+                  <li class="fragment">Sharding / replication</li>
+                  <li class="fragment">Json (same as the API format)</li>
+                  <li class="fragment">Search / index</li>
+                </ul>
+              </section>
+
+              <section data-ts="10">
+                <ul>
+                    <li>Relational: PostgreSQL, MySQL, Oracle...</li>
+                    <li>Key-Value: Redis, Riak, DynamoDB...</li>
+                    <li>Document: MongoDB, ElasticSearch, CouchDB,...</li>
+                    <li><b>Graph: Neo4J, InfiniteGraph,...</b></li>
+                </ul>
+              </section>
+
+              <section data-ts="30">
+                <h2>NoSQL Graph Database</h2>
+                <img src="img/graph.png" style="width:500px;"/>
+                <p style="font-size:16px;">source: neo4j.com</p>
+                <ul>
+                  <li class="fragment">Nodes (noun)</li>
+                  <li class="fragment">Relationships (verb)</li>
+                  <li class="fragment">Properties</li>
+                </ul>
+
+              </section>
+
+
+              <section data-ts="40">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Neo4j</h3>
+                <img src="img/neo4j.png" style="width:500px;"/>
+                <ul>
+                  <li>Opensource</li>
+                  <li>Transactional (ACID)</li>
+                  <li>Scalability: master-slave / no sharding</li>
+                  <li>Drivers for popular languages / REST API</li>
+                  <li>Cypher (declarative)</li>
+                </ul>
+              </section>
+
+              <section data-ts="30">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+
+                <blockquote style="width: 95%">
+                    If customer1 bought same beers as customer2, recommend customer2 beers to customer1.
+                </blockquote>
+                <img class="fragment" src="img/graphbeer.png" style="width:600px;"/>
+
+              </section>
+
+
+              <section data-ts="15">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+                <pre>
+                  <code class="sql" data-trim>
+CREATE (rm:Customer{username:'rmaree'})
+CREATE (rh:Customer{username:'rhoyoux'})
+CREATE (jf:Customer{username:'jfays'})
+...
+
+CREATE (o:Beer{name:'Orval'})
+...
+
+
+CREATE (rm)-[:BOUGHT ]->(cb)
+CREATE (rm)-[:BOUGHT ]->(vt)
+CREATE (rh)-[:BOUGHT ]->(o)
+CREATE (rh)-[:BOUGHT ]->(vb)
+CREATE (rh)-[:BOUGHT ]->(vt)
+...
+
+                  </code>
+                </pre>
+              </section>
+
+              <section data-ts="90">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+                <pre>
+                  <code class="sql" data-trim>
+match
+(c1:Customer)-[:BOUGHT]->(beer1:Beer)
+<-[:BOUGHT]-(c2:Customer)-[:BOUGHT]->(beer2:Beer)
+where not (c1)-[:BOUGHT]->(beer2)
+return ...
+                  </code>
+                </pre>
+                  <img src="img/recom1.png" style="width:800px;"/>
+              </section>
+              <section data-ts="10">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+                <pre>
+                  <code class="sql" data-trim>
+match
+(c1:Customer)-[:BOUGHT]->(beer1:Beer)
+<-[:BOUGHT]-(c2:Customer)-[:BOUGHT]->(beer2:Beer)
+where not (c1)-[:BOUGHT]->(beer2)
+return c1.username as FirstPerson, c2.username as SecondPerson, beer1.name as
+CommonProduct, beer2.name as RecommendedProduct;
+                  </code>
+                </pre>
+                  <img src="img/recom1.png" style="width:800px;"/>
+              </section>
+
+
+              <section data-ts="45">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+                <pre>
+                  <code class="sql" data-trim>
+match (c1:Customer)-[:BOUGHT]->(beer1:Beer)
+<-[:BOUGHT]-(c2:Customer)-[:BOUGHT]->(beer2:Beer)
+with c1,c2,count(beer1) as NrOfSharedProducts, collect(beer1) as
+SharedProducts,beer2
+where not (c1)-[:BOUGHT]->(beer2) AND NrOfSharedProducts >= 2
+return ...
+                  </code>
+                </pre>
+                  <img src="img/recom2.png" style="width:800px;"/>
+              </section>
+
+              <section data-ts="10">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+                <pre>
+                  <code class="sql" data-trim>
+match (c1:Customer)-[:BOUGHT]->(beer1:Beer)
+<-[:BOUGHT]-(c2:Customer)-[:BOUGHT]->(beer2:Beer)
+with c1,c2,count(beer1) as NrOfSharedProducts, collect(beer1) as
+SharedProducts,beer2
+where not (c1)-[:BOUGHT]->(beer2) AND NrOfSharedProducts >= 2
+return c1.username as FirPer, c2.username as SecPer, extract(x
+in SharedProds | x.name) as SharedProds, beer2.name as RecomProd;
+                  </code>
+                </pre>
+                  <img src="img/recom2.png" style="width:800px;"/>
+              </section>
+
+
+              <section data-ts="30">
+                <h2>NoSQL Graph Database</h2>
+                <h3>Use case: Beers recommendations</h3>
+                <ul>
+                  <li class="fragment">Simple request (cypher)</li>
+                  <li class="fragment">Speed (no join)
+                    <div class="fragment">
+                      <img  src="img/graphVsRelational.png" style="width:600px;margin:5px;"/>
+                      <p style="font-size:16px; margin:5px;">source: neo4j.com</p>
+                    </div>
+                  </li>
+                </ul>
+
+              </section>
+
+
+              <section data-ts="10">
+                <h2>Conclusion</h2>
+              </section>
+              <section data-ts="99">
+                <h2>Conclusion</h2>
+
+                <ul style="list-style-type: none;">
+                    <li class="fragment">User sessions: <b>Redis</b></li>
+                    <li class="fragment">Shopping cart: <b>Riak</b></li>
+                    <li class="fragment">Product catalog: <b>MongoDB</b></li>
+                    <li class="fragment">Recommendations: <b>Neo4J</b></li>
+                    <li class="fragment">Financial Data: <b>PostgreSQL</b></li>
+                    <li class="fragment">Search engine: <b>Elasticsearch</b></li>
+                  </ul>
+
+                <p class="fragment">Excessive (for the talk): take the best database(s)</p>
+
+                <!-- User sessions - Redis
+                -key-value, fast, light, memory,...
+
+                Shopping cart - Riak
+                -key-value, distribued, fast,...
+
+                Catalog - MongoDB
+                -document, sharding, aggregate,...
+
+                Recommendations - Neo4J
+                -graph, fast, simple,...
+
+                Financial Data - PostgreSQL
+                -relational, consistency, acid, sql,...
+
+                Search engine - Elasticseacrh
+                -document: full text search, scalability,... -->
+
+
+              </section>
+
+              <section data-ts="99">
+                <h2>Conclusion</h2>
+
+                <ul style="list-style-type: none;">
+                    <li>User sessions: <b>PostgreSQL</b></li>
+                    <li>Shopping cart: <b>PostgreSQL</b></li>
+                    <li>Product catalog: <b>PostgreSQL</b></li>
+                    <li>Recommendations: <b>Neo4J</b></li>
+                    <li>Financial Data: <b>PostgreSQL</b></li>
+                    <li>Search engine: <b>Elasticsearch</b></li>
+                  </ul>
+
+              </section>
+
+
+              <section data-ts="90">
+                <h2>Conclusion</h2>
+                <p>GOTO Microservices...</p>
+                <img src="img/micro-deployment.png" style="width:700px;"/>
+                <p style="font-size:16px; margin:5px;">https://www.martinfowler.com/</p>
+              </section>
+
+
+              <section data-ts="60">
+                <h2>Conclusion</h2>
+                <p><s class="fragment">SQL VS NoSQL</s><span class="fragment">: Polyglot Persistence<span></p>
+                <ul style="list-style-type: none;">
+                  <li class="fragment">+ Best DB for each Use case</li>
+                  <li class="fragment">+ Scalability</li>
+                  <li class="fragment">- Redundancy</li>
+                  <li class="fragment">- More work for (Dev)Ops</li>
+                </ul>
+              </section>
+
+
+              <section>
+                <img style="border:0px;width:600px;" src="img/questions.png" />
+                <p><i>
+                3 NoSQL Admins walk into a bar...<br/>...but they couldn't join a table.</i></p>
+
+              </section>
+
+
+
+            </div>
+        </div>
+        		<script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+        // Full list of configuration options available at:
+    			// https://github.com/hakimel/reveal.js#configuration
+    			Reveal.initialize({
+    				controls: true,
+    				progress: true,
+    				history: true,
+    				center: true,
+
+    				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+    				// Optional reveal.js plugins
+    				dependencies: [
+    					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    					{ src: 'plugin/zoom-js/zoom.js', async: true },
+    					{ src: 'plugin/notes/notes.js', async: true }
+    				]
+    			});
+        </script>
+
+        <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-57275576-1');ga('send','pageview');
+    </script>
+    </body>
+</html>
